@@ -1,42 +1,72 @@
-import React from 'react';
-import { Star, ShoppingCart, Heart } from 'lucide-react';
+import { Heart } from "lucide-react"; // Import only the Heart icon
+import React, { useState } from "react";
 
-const ProductCard = ({ singleprod }) => {
+const ProductCard = ({ product }) => {
+  const [isFavorite, setIsFavorite] = useState(false); // State to track if the item is favorited
+
+  // Function to toggle the favorite state
+  const toggleFavorite = () => {
+    setIsFavorite((prev) => !prev);
+  };
+
   return (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
-      <div className="relative">
-        <img
-          src={singleprod?.imgUrl || "/api/placeholder/300/300"}
-          alt={singleprod?.name}
-          className="w-full h-64 object-cover hover:scale-105 transition duration-200"
+    <div className="relative flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md" style={{ backgroundColor: "#fdf6ed" }}>
+      {/* Wishlist Icon */}
+      <button
+        onClick={toggleFavorite} // Toggle favorite state on click
+        className="absolute top-3 right-3 z-10 p-1.5 rounded-full"
+        style={{ backgroundColor: "#fff" }}
+      >
+        {/* Conditional fill and border color */}
+        <Heart
+          className={isFavorite ? "fill-red-600 text-red-600" : "text-red-600"} // Change based on state
+          size={22}
+          strokeWidth={isFavorite ? 0 : 2} // Show border if not favorite
         />
-        <button className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:bg-red-50 transition-colors duration-300">
-          <Heart className="w-5 h-5 text-red-500" />
-        </button>
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
-          <h5 className="text-lg font-semibold text-white mb-1">{singleprod?.name}</h5>
-          <p className="text-sm text-gray-200 line-clamp-2">{singleprod?.description}</p>
+      </button>
+
+      <a className="relative mx-2.5 mt-2.5 flex h-60 overflow-hidden rounded-xl" href="#">
+        <img
+          className="object-cover w-full h-full" // Ensure image covers the container and maintains aspect ratio
+          src={product.image}
+          alt={product.title}
+        />
+      </a>
+      <div className="mt-4 px-5 pb-5">
+        <a href="#">
+          <h5 className="text-xl font-semibold mb-3 text-gray-900 text-left">{product.title}</h5>
+        </a>
+
+        <div className="flex items-center">
+          {[...Array(product.rating)].map((_, index) => (
+            <svg
+              key={index}
+              aria-hidden="true"
+              className="h-6 w-6 text-yellow-400"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+            </svg>
+          ))}
+          <span className="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-sm font-base">{product.rating}.0</span>
         </div>
-      </div>
-      <div className="p-4">
-        <div className="flex justify-between items-center mb-3">
-          <span className="text-2xl font-bold text-indigo-600">₹{singleprod?.price}</span>
-          <div className="flex items-center">
-            <Star className="w-5 h-5 text-yellow-400 mr-1" />
-            <span className="text-sm font-medium text-gray-600">
-              {singleprod.ratingAverage} ({singleprod?.ratingCount})
-            </span>
+
+        <div className="mt-2 mb-5 flex items-center justify-between">
+          <div className="flex items-center text-left">
+            <p className="text-lg font-semibold mb-1 text-gray-900">₹{product.price}.00</p>
+            <p className="text-ms font-normal text-gray-500 line-through ml-4">₹{product.previous_price}.00</p>
+            <p className="text-sm font-semibold text-green-500 ml-4">({product.discount}% Off)</p>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-2">
-          <button className="flex items-center justify-center  py-1 bg-gray-200 text-gray-800 rounded-full hover:bg-gray-300 transition-colors duration-300">
 
-            Add to cart
-          </button>
-          <button className=" bg-purple-500 text-white rounded-full hover:bg-purple-700 transition-colors duration-300 text-sm">
-            Buy Now
-          </button>
-        </div>
+        <a
+          href="#"
+          className="flex items-center justify-center rounded-md bg-orange-800 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-4 focus:ring-orange-300"
+        >
+          <span>View Details</span>
+        </a>
       </div>
     </div>
   );

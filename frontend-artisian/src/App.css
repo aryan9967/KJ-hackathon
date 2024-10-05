@@ -140,3 +140,52 @@ body {
   color: white;
   background: rgb(43, 47, 60);
 }
+
+.swashIn {
+  -webkit-animation-name: swashIn;
+  animation-name: swashIn;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+}
+
+@-webkit-keyframes swashIn {
+  0% {
+    opacity: 1;
+    -webkit-transform-origin: 50% 50%;
+    -webkit-transform: scale(0.6, 0.6);
+    /* Start at 60% */
+  }
+
+  90% {
+    opacity: 1;
+    -webkit-transform-origin: 50% 50%;
+    -webkit-transform: scale(0.9, 0.9);
+  }
+
+  100% {
+    opacity: 1;
+    -webkit-transform-origin: 50% 50%;
+    -webkit-transform: scale(1, 1);
+  }
+}
+
+@keyframes swashIn {
+  0% {
+    opacity: 1;
+    transform-origin: 50% 50%;
+    transform: scale(0.6, 0.6);
+    /* Start at 60% */
+  }
+
+  90% {
+    opacity: 1;
+    transform-origin: 50% 50%;
+    transform: scale(0.9, 0.9);
+  }
+
+  100% {
+    opacity: 1;
+    transform-origin: 50% 50%;
+    transform: scale(1, 1);
+  }
+}
