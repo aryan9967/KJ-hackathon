@@ -52,8 +52,8 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink className="nav-link mr-3 text-black" to="/dashboard">
-                DashBoard
+              <NavLink className="nav-link mr-3 text-black" to="/products">
+                Products
               </NavLink>
             </li>
             <li>
@@ -67,25 +67,11 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink className="nav-link mr-3 text-black" to="/caregiver">
-                Care Givers
+              <NavLink className="nav-link mr-3 text-black" to="/profile">
+                Profile
               </NavLink>
             </li>
-            <li>
-              <NavLink className="nav-link mr-3 text-black" to="/doctor">
-                Doctors
-              </NavLink>
-            </li>
-            <li>
-              <NavLink className="nav-link mr-3 text-black" to="/community">
-                Community
-              </NavLink>
-            </li>
-            <li>
-              <NavLink className="nav-link mr-3 text-black" to="/medical">
-                Medical Records
-              </NavLink>
-            </li>
+            
           </ul>
 
           {/* Search Form */}

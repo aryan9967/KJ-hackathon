@@ -19,6 +19,7 @@ import CallPage from "./pages/CallPage";
 import { TodoProvider } from "./context/TodoContext";
 import { AppointmentProvider } from "./context/AppointmentContext";
 import { MedicationProvider } from "./context/MedicationContext";
+import ProductPage from "./pages/ProductPage";
 
 import { Inventory } from "./components/Inventory/Inventory";
 import { Orders } from "./components/Orders/Order";
@@ -33,20 +34,10 @@ function App() {
     <Routes>
       <Route path="/" element={<Homepage />} />
       <Route path="/wishlist" element={<Wishlist />}></Route>
-
+      <Route path="/profile" element={<Profile />}></Route>
       <Route path="/cart" element={<Cart />}></Route>
       <Route path="/searchresult" element={<SearchResult />}></Route>
-      {/* <Route path="/dashboard" element={<MedicationProvider><AppointmentProvider><TodoProvider><DashBoard /></TodoProvider></AppointmentProvider></MedicationProvider>}></Route> */}
-      <Route path="/community" element={<Community />}></Route>
-      
-      <Route path="/medical" element={<MedicalHistoryPage />}></Route>
-      <Route path="/caregiver" element={<Caregiver />}></Route>
-      <Route path="/doctor" element={<Doctor />}></Route>
-      <Route path="/landing" element={<Landingpage />}></Route>
-      {/* <Route path="/connect" element={<CallPage />}></Route> */}
-      <Route path="/dashboard" element = {<Dashboard />} />
-      <Route path="/inventory" element = {<Inventory />} />
-      <Route path='/orders' element={<Orders />} />
+      <Route path="/products" element={<ProductPage />}></Route>
     </Routes>
   );
 }

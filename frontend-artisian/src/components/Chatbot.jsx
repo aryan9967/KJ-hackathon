@@ -154,56 +154,7 @@ export default function Chatbot() {
     speakText(data);
     setChatContent(data);
   }
-
-  async function book_appointment(req_data) {
-    console.log("appointment data", req_data);
-    const { doctor_id, doctor_name, date, time } = req_data;
-    const { data } = await axios.post("http://localhost:3000/add_appointment", {
-      doctor_id,
-      doctor_name,
-      date,
-      time,
-    });
-    console.log(data);
-    speakText(data.message);
-  }
-
-  async function handle_emergency() {
-    console.log("emergency detected");
-    console.log(location.current);
-    const { data } = await axios.post("http://localhost:3000/send-SOS", {
-      location: location.current,
-    });
-    console.log(data);
-    speakText("Contacted your family member and nearby emergency services");
-  }
-
-  async function add_todo(title) {
-    const { data } = await axios.post("http://localhost:3000/add_todo", {
-      title,
-    });
-    console.log(data);
-    speakText(data.message);
-  }
-
-  async function add_medication(req_data) {
-    console.log("medication data", req_data);
-    const { frequency, medicine_name } = req_data;
-    const { data } = await axios.post("http://localhost:3000/add_medication", {
-      frequency,
-      name: medicine_name,
-    });
-    console.log(data);
-    speakText(data.message);
-  }
-
-  async function hire_caregiver(id) {
-    const { data } = await axios.post("http://localhost:3000/hire_caregiver", {
-      care_giver_id: id,
-    });
-    console.log(data);
-    speakText(data);
-  }
+  
 
   useEffect(() => {
     const handleResponse = (response) => {
@@ -286,22 +237,16 @@ export default function Chatbot() {
 
         // Define a mapping of possible variations to correct routes
         const pageRoutes = {
-          home: "/",
-          homepage: "/",
-          wishlist: "/wishlist",
-          wishlistpage: "/wishlist",
-          cart: "/cart",
-          cartpage: "/cart",
-          dashboard: "/dashboard",
-          dashboardpage: "/dashboard",
-          community: "/community",
-          communitypage: "/community",
-          caregiver: "/caregiver",
-          caregiverpage: "/caregiver",
-          doctor: "/doctor",
-          doctorpage: "/doctor",
-          medicalrecords: "/medical",
-          medicalrecordspage: "/medical",
+            home: "/",
+            homepage: "/",
+            wishlist: "/wishlist",
+            wishlistpage: "/wishlist",
+            cart: "/cart",
+            cartpage: "/cart",
+            profile: "/profile",
+            profilepage: "/profile",
+            products: "/products",
+            productspage: "/products",
         };
 
         // Check if the normalized page name exists in the mapping
