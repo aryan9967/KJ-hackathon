@@ -7,6 +7,7 @@ import painting2 from '@/assets/painting2.jpg';
 import painting3 from '@/assets/painting3.jpg';
 import painting4 from '@/assets/painting4.jpg';
 import painting5 from '@/assets/painting5.jpg';
+import Chatbot from '@/components/Chatbot';
 
 const SearchPage = () => {
     const products = [
@@ -59,6 +60,8 @@ const SearchPage = () => {
                         <ProductCard product={single_item} key={single_item.id} /> // Pass product data
                     ))}
                 </div>
+
+                <Chatbot />
             </div>
         </div>
     );

@@ -1,7 +1,5 @@
-import { Heart } from "lucide-react"; // Import the Heart icon
+import { Heart, ShoppingCart } from "lucide-react"; // Import the ShoppingCart icon
 import React, { useState } from "react";
-import { faStar } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const CartCard = ({ product }) => {
   const [isFavorite, setIsFavorite] = useState(false); // State to track if the item is favorited
@@ -63,6 +61,7 @@ const CartCard = ({ product }) => {
           href="#"
           className="flex items-center justify-center rounded-md bg-orange-800 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-4 focus:ring-orange-300"
         >
+          <ShoppingCart className="mr-2" size={16} /> {/* Buy Icon */}
           Buy Now
         </a>
       </div>
