@@ -154,36 +154,6 @@ Additionally, as an assistant on an artisan marketplace, you will help users buy
         ],
     },
     {
-        role: "user",
-        parts: [
-            { text: JSON.stringify(todo) },
-        ],
-    },
-    {
-        role: "user",
-        parts: [
-            { text: JSON.stringify(medication) },
-        ],
-    },
-    {
-        role: "user",
-        parts: [
-            { text: JSON.stringify(upcoming_appointments) },
-        ],
-    },
-    {
-        role: "user",
-        parts: [
-            { text: JSON.stringify(caregivers) },
-        ],
-    },
-    {
-        role: "user",
-        parts: [
-            { text: JSON.stringify(doctor) },
-        ],
-    },
-    {
         role: "model",
         parts: [
             { text: "Hello, I am your personal shopping assistant. How may I assist you?" },
@@ -335,6 +305,7 @@ app.post("/create-product", upload.any(), async (req, res) => {
     let images = [];
     let rating = 4.5;
     let questions = [];
+    let sales = 10
 
     console.log("Files:", req.files);  // Log uploaded files
     console.log("Number of files:", req.files.length);  // Log number of files
@@ -387,7 +358,7 @@ app.post("/create-product", upload.any(), async (req, res) => {
                 questions,
                 seller_name,
                 status,
-                sales: 0
+                sales
             };
 
             // Save product data to Firestore (or any other DB)
