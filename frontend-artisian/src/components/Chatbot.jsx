@@ -18,7 +18,7 @@ export default function Chatbot() {
   const { storeSearchResult } = useSearchResult();
   const location = useRef();
   const [chatContent, setChatContent] = useState(
-    "Hello, I am CareMate, your personal care taking assistant. How may I assist you?"
+    "Hello, I am ShopAssist, your personal shopping assistant. How may I assist you?"
   );
   // Update the ref whenever transcript1 changes
   useEffect(() => {

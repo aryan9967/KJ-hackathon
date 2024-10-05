@@ -1,3 +1,4 @@
+import Chatbot from '@/components/Chatbot';
 import Navbar from '@/components/Navbar';
 import React, { useState, useEffect } from 'react';
 import AliceCarousel from 'react-alice-carousel';
@@ -82,6 +83,7 @@ const LandingPage = () => {
         {renderRecommendedProducts()}
       </section>
     </div>
+    <Chatbot />
     </div>
     </div>
   );
