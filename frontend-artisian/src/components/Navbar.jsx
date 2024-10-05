@@ -22,7 +22,7 @@ const Navbar = () => {
       <div className="container flex items-center justify-between h-full">
         {/* Logo */}
         <img
-          src={logo}
+          
           alt="Logo"
           className="h-8 w-[120px] mr-7 ml-5 mt-0.5"
         />
@@ -76,12 +76,7 @@ const Navbar = () => {
 
           {/* Search Form */}
 
-          <Button
-            className="bg-red-500 hover:bg-red-600 px-4 mr-6"
-            onClick={handle_emergency}
-          >
-            SOS
-          </Button>
+      
         </div>
       </div>
     </nav>

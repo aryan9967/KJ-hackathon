@@ -41,6 +41,7 @@ import { Input } from "@/components/ui/input"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 import { useEffect, useState } from "react"
+import NavbarAdmin from "./NavbarAdmin"
 
 
 
@@ -118,215 +119,108 @@ export function Dashboard() {
 
     return (
         <div className="main_container">
-        <div className="flex min-h-screen w-full flex-col main_screen">
-            <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
-                <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
-                    <Link
-                        href="#"
-                        className="flex items-center gap-2 text-lg font-semibold md:text-base"
-                    >
-                        <Package2 className="h-6 w-6" />
-                        <span className="sr-only">Acme Inc</span>
-                    </Link>
-                    <Link
-                        href="#"
-                        className="text-foreground transition-colors hover:text-foreground"
-                    >
-                        Dashboard
-                    </Link>
-                    <Link
-                        href="#"
-                        className="text-muted-foreground transition-colors hover:text-foreground"
-                    >
-                        Orders
-                    </Link>
-                    <Link
-                        href="#"
-                        className="text-muted-foreground transition-colors hover:text-foreground"
-                    >
-                        Products
-                    </Link>
-                    <Link
-                        href="#"
-                        className="text-muted-foreground transition-colors hover:text-foreground"
-                    >
-                        Customers
-                    </Link>
-                    <Link
-                        href="#"
-                        className="text-muted-foreground transition-colors hover:text-foreground"
-                    >
-                        Analytics
-                    </Link>
-                </nav>
-                <Sheet>
-                    <SheetTrigger asChild>
-                        <Button
-                            variant="outline"
-                            size="icon"
-                            className="shrink-0 md:hidden"
-                        >
-                            <Menu className="h-5 w-5" />
-                            <span className="sr-only">Toggle navigation menu</span>
-                        </Button>
-                    </SheetTrigger>
-                    <SheetContent side="left">
-                        <nav className="grid gap-6 text-lg font-medium">
-                            <Link
-                                href="#"
-                                className="flex items-center gap-2 text-lg font-semibold"
-                            >
-                                <Package2 className="h-6 w-6" />
-                                <span className="sr-only">Acme Inc</span>
-                            </Link>
-                            <Link href="#" className="hover:text-foreground">
-                                Dashboard
-                            </Link>
-                            <Link
-                                href="#"
-                                className="text-muted-foreground hover:text-foreground"
-                            >
-                                Orders
-                            </Link>
-                            <Link
-                                href="#"
-                                className="text-muted-foreground hover:text-foreground"
-                            >
-                                Products
-                            </Link>
-                            <Link
-                                href="#"
-                                className="text-muted-foreground hover:text-foreground"
-                            >
-                                Customers
-                            </Link>
-                            <Link
-                                href="#"
-                                className="text-muted-foreground hover:text-foreground"
-                            >
-                                Analytics
-                            </Link>
-                        </nav>
-                    </SheetContent>
-                </Sheet>
-                <div className="flex w-full items-center justify-end gap-4 md:ml-auto md:gap-2 lg:gap-4">
-
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="secondary" size="icon" className="rounded-full">
-                                <CircleUser className="h-5 w-5" />
-                                <span className="sr-only">Toggle user menu</span>
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem>Settings</DropdownMenuItem>
-                            <DropdownMenuItem>Support</DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem>Logout</DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+            <div className="flex min-h-screen w-full flex-col main_screen">
+                <div className="navbar_container">
+                    <NavbarAdmin />
                 </div>
-            </header>
-            <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
-                <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
-                    <Card x-chunk="dashboard-01-chunk-0" className="shadow-md dark:border-gray-800 bg-blend-darken">
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">
-                                Monthly Sales
-                            </CardTitle>
-                            <BadgeDollarSign className="rounded-full  p-1 text-white w-8 h-8 bg-orange-800" />
-                        </CardHeader>
-                        <CardContent>
-                            <div className="text-2xl font-bold">4523</div>
-                            <p className="text-xs text-green-500">
-                                +20.1% from last month
-                            </p>
-                        </CardContent>
-                    </Card>
-                    <Card x-chunk="dashboard-01-chunk-0" className="shadow-md dark:border-gray-800 bg-blend-darken">
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">
-                                Monthly Profit
-                            </CardTitle>
-                            <TrendingUp className="rounded-full  p-1 text-white w-8 h-8 bg-orange-800" />
-                        </CardHeader>
-                        <CardContent>
-                            <div className="text-2xl font-bold">1050</div>
-                            <p className="text-xs  text-green-500">
-                                +10% from last month
-                            </p>
-                        </CardContent>
-                    </Card>
-                    <Card x-chunk="dashboard-01-chunk-0" className="shadow-md dark:border-gray-800 bg-blend-darken">
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">
-                                Active SKU'S
-                            </CardTitle>
-                            <PackageCheck className="rounded-full  p-1 text-white w-8 h-8 bg-orange-800" />
-                        </CardHeader>
-                        <CardContent>
-                            <div className="text-2xl font-bold">3473</div>
-                            <p className="text-xs text-green-500">
-                                +15% from last month
-                            </p>
-                        </CardContent>
-                    </Card>
-                    <Card x-chunk="dashboard-01-chunk-0" className="shadow-md dark:border-gray-800 bg-blend-darken">
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">
-                                Pending Orders
-                            </CardTitle>
-                            <CircleDashed className="rounded-full  p-1 text-white w-8 h-8 bg-orange-800" />
-                        </CardHeader>
-                        <CardContent>
-                            <div className="text-2xl font-bold">680</div>
-                            <p className="text-xs text-muted-foreground text-red-500">
-                                +5.1% from last month
-                            </p>
-                        </CardContent>
-                    </Card>
+                <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
+                    <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
+                        <Card x-chunk="dashboard-01-chunk-0" className="shadow-md dark:border-gray-800 bg-blend-darken">
+                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                <CardTitle className="text-sm font-medium">
+                                    Monthly Sales
+                                </CardTitle>
+                                <BadgeDollarSign className="rounded-full  p-1 text-white w-8 h-8 bg-orange-800" />
+                            </CardHeader>
+                            <CardContent>
+                                <div className="text-2xl font-bold">4523</div>
+                                <p className="text-xs text-green-500">
+                                    +20.1% from last month
+                                </p>
+                            </CardContent>
+                        </Card>
+                        <Card x-chunk="dashboard-01-chunk-0" className="shadow-md dark:border-gray-800 bg-blend-darken">
+                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                <CardTitle className="text-sm font-medium">
+                                    Monthly Profit
+                                </CardTitle>
+                                <TrendingUp className="rounded-full  p-1 text-white w-8 h-8 bg-orange-800" />
+                            </CardHeader>
+                            <CardContent>
+                                <div className="text-2xl font-bold">1050</div>
+                                <p className="text-xs  text-green-500">
+                                    +10% from last month
+                                </p>
+                            </CardContent>
+                        </Card>
+                        <Card x-chunk="dashboard-01-chunk-0" className="shadow-md dark:border-gray-800 bg-blend-darken">
+                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                <CardTitle className="text-sm font-medium">
+                                    Active SKU'S
+                                </CardTitle>
+                                <PackageCheck className="rounded-full  p-1 text-white w-8 h-8 bg-orange-800" />
+                            </CardHeader>
+                            <CardContent>
+                                <div className="text-2xl font-bold">3473</div>
+                                <p className="text-xs text-green-500">
+                                    +15% from last month
+                                </p>
+                            </CardContent>
+                        </Card>
+                        <Card x-chunk="dashboard-01-chunk-0" className="shadow-md dark:border-gray-800 bg-blend-darken">
+                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                <CardTitle className="text-sm font-medium">
+                                    Pending Orders
+                                </CardTitle>
+                                <CircleDashed className="rounded-full  p-1 text-white w-8 h-8 bg-orange-800" />
+                            </CardHeader>
+                            <CardContent>
+                                <div className="text-2xl font-bold">680</div>
+                                <p className="text-xs text-muted-foreground text-red-500">
+                                    +5.1% from last month
+                                </p>
+                            </CardContent>
+                        </Card>
 
-                </div>
-                <div className="grid gap-4 md:gap-8 lg:grid-cols-2 ">
-                    <BarChartComponent />
-                    <Card x-chunk="dashboard-01-chunk-5" className="dark:border-gray-800 dark:shadow-lg">
-                        <CardHeader>
-                            <CardTitle>Recent Sales</CardTitle>
-                        </CardHeader>
-                        <CardContent className="grid gap-8">
-                            {recentComplaints.map((sale) => (
-                                <div
-                                    key={sale.product_name}
-                                    className="flex items-center gap-4 hover:shadow-lg hover:scale-95 hover:cursor-pointer"
-                                    onClick={() => {
-                                        handleViewDetails(sale);
-                                    }}
-                                >
-                                    <Avatar className="hidden h-9 w-9 sm:flex">
-                                        <AvatarImage src={sale.product_image || "https://ui.shadcn.com/avatars/01.png"} alt="Product Image" />
-                                        <AvatarFallback>{sale.product_name.slice(0, 2).toUpperCase()}</AvatarFallback>
-                                    </Avatar>
-                                    <div className="grid gap-1">
-                                        <p className="text-sm font-medium text-start">
-                                            {sale.product_name.toUpperCase()}
-                                        </p>
-                                        <p className="text-sm text-muted-foreground text-start">
-                                            {sale.buyer_email}
-                                        </p>
+                    </div>
+                    <div className="grid gap-4 md:gap-8 lg:grid-cols-2 ">
+                        <BarChartComponent />
+                        <Card x-chunk="dashboard-01-chunk-5" className="dark:border-gray-800 dark:shadow-lg">
+                            <CardHeader>
+                                <CardTitle>Recent Sales</CardTitle>
+                            </CardHeader>
+                            <CardContent className="grid gap-8">
+                                {recentComplaints.map((sale) => (
+                                    <div
+                                        key={sale.product_name}
+                                        className="flex items-center gap-4 hover:shadow-lg hover:scale-95 hover:cursor-pointer"
+                                        onClick={() => {
+                                            handleViewDetails(sale);
+                                        }}
+                                    >
+                                        <Avatar className="hidden h-9 w-9 sm:flex">
+                                            <AvatarImage src={sale.product_image || "https://ui.shadcn.com/avatars/01.png"} alt="Product Image" />
+                                            <AvatarFallback>{sale.product_name.slice(0, 2).toUpperCase()}</AvatarFallback>
+                                        </Avatar>
+                                        <div className="grid gap-1">
+                                            <p className="text-sm font-medium text-start">
+                                                {sale.product_name.toUpperCase()}
+                                            </p>
+                                            <p className="text-sm text-muted-foreground text-start">
+                                                {sale.buyer_email}
+                                            </p>
+                                        </div>
+                                        <div className="ml-auto font-semibold text-sm text-white rounded-full px-2 py-1 bg-orange-800">
+                                            ${sale.sell_price}
+                                        </div>
                                     </div>
-                                    <div className="ml-auto font-semibold text-sm text-white rounded-full px-2 py-1 bg-orange-800">
-                                        ${sale.sell_price}
-                                    </div>
-                                </div>
-                            ))}
-                        </CardContent>
-                    </Card>
+                                ))}
+                            </CardContent>
+                        </Card>
 
-                </div>
-            </main>
-        </div>
+                    </div>
+                </main>
+            </div>
         </div>
     )
 }
