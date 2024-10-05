@@ -23,11 +23,26 @@ const all_products = {
     "products": []
 }
 
+const profile = {
+    "name": "Aryan Maurya",
+    "contact": "9967855432",
+    "gender": "Male",
+    "address": "Wadala East, Mumbai-400037",
+    "email": "aryan@gmail.com",
+    "previous_orders": []
+}
+
+
 async function fetch_all_products() {
     all_products.products.push(...(await fetchAllDocuments("product")))
 }
 
+async function fetch_previous_orders(){
+    profile.previous_orders.push(...(await fetchAllDocuments("orders")))
+}
+
 await fetch_all_products()
+await fetch_previous_orders()
 
 console.log("all_products", all_products)
 
@@ -59,24 +74,7 @@ const wishlist = {
     ]
 }
 
-const profile = {
-    "name": "Aryan Maurya",
-    "contact": "9967855432",
-    "gender": "Male",
-    "address": "Wadala East, Mumbai-400037",
-    "email": "aryan@gmail.com",
-    "previous_orders": [
-        {
-            "id": 10,
-            "name": "Bedside Adjustable Overbed Table",
-            "description": "An adjustable overbed table that allows elderly individuals to comfortably eat or work while in bed.",
-            "price": 3500.00,
-            "ratingAverage": 4.8,
-            "ratingCount": 460,
-            "imgUrl": "https://firebasestorage.googleapis.com/v0/b/minithon-7a420.appspot.com/o/codestorm%2Fbedside_table.jpg?alt=media&token=85e1694e-007e-41e1-8067-6b6cf8e761c9"
-        }
-    ]
-}
+
 
 function searchbyKeyword(keyword) {
     console.log(all_products)
@@ -225,6 +223,25 @@ app.post("/search-product", async (req, res)=>{
 app.post("/get-single-product", async(req, res)=>{
     const pid = req.body.pid
     const data = await readDocument('product', pid)
+    res.status(200).send(data)
+})
+
+app.post("/create-order", async(req, res)=>{
+    const {name, email, pid, amount, address, qauntity} = req.body
+    const date = Date.now()
+    const orderId = `order${date}`
+    const status = "pending"
+
+    const order_data = {
+        orderId, name, email, status, pid, date, amount, address, qauntity
+    }
+
+    await createOrUpdateDocument('orders', orderId, order_data)
+    res.status(200).send("order placed successfully")
+})
+
+app.get("/get-orders", async(req, res)=>{
+    const data = await fetchAllDocuments('orders')
     res.status(200).send(data)
 })
 
