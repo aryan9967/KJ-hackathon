@@ -5,9 +5,44 @@ import ProductCard from "../components/ProductCard";
 import WishlistProduct from "../components/WishlistProduct";
 import axios from "axios";
 import { Heart } from "lucide-react";
+import painting1 from '@/assets/painting1.jpg';
+import painting2 from '@/assets/painting2.jpg';
+import painting3 from '@/assets/painting3.jpg';
+import painting4 from '@/assets/painting4.jpg';
+import painting5 from '@/assets/painting5.jpg';
 
 export default function Wishlist() {
   const [wishlist, setWhishlist] = useState(null);
+
+  const products = [
+    {
+      id: 1,
+      image: painting1,
+      title: 'Abstract Painting',
+      price: 3999,
+      previous_price: 1499,
+      discount: 15,
+      rating: 4,
+    },
+    {
+      id: 2,
+      image: painting2,
+      title: 'Nature Landscape',
+      price: 2499,
+      previous_price: 1499,
+      discount: 15,
+      rating: 5,
+    },
+    {
+      id: 3,
+      image: painting3,
+      title: 'Modern Art Piece',
+      price: 5999,
+      previous_price: 1499,
+      discount: 15,
+      rating: 4,
+    },
+  ];
 
   useEffect(() => {
     get_whishlist();
@@ -36,11 +71,11 @@ export default function Wishlist() {
             <h2 className="text-2xl font-semibold text-gray-800">Your Wishlist</h2>
           </div>
           <div className="text-sm font-medium text-gray-500">
-            {wishlist?.length} {wishlist?.length === 1 ? ` item` : ` items`}
+            {products?.length} {products?.length === 1 ? ` item` : ` items`}
           </div>
         </div>
         <div className="wishlist_container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {wishlist?.map((single_item, index) => (
+          {products?.map((single_item, index) => (
             <WishlistProduct product={single_item} key={index} />
           ))}
         </div>
