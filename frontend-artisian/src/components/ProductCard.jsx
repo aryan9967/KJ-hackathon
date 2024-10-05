@@ -9,6 +9,12 @@ const ProductCard = ({ product }) => {
     setIsFavorite((prev) => !prev);
   };
 
+  const discount = 15; // Static discount percentage
+  const previousPrice = Math.round(product?.price / (1 - discount / 100)); // Calculate the previous price
+
+  // Ensure the rating is an integer
+  const roundedRating = Math.floor(product?.rating || 0);
+
   return (
     <div className="relative flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md" style={{ backgroundColor: "#fdf6ed" }}>
       {/* Wishlist Icon */}
@@ -28,17 +34,18 @@ const ProductCard = ({ product }) => {
       <a className="relative mx-2.5 mt-2.5 flex h-60 overflow-hidden rounded-xl" href="#">
         <img
           className="object-cover w-full h-full" // Ensure image covers the container and maintains aspect ratio
-          src={product.image}
-          alt={product.title}
+          src={product?.images[0]}
+          alt={product?.name}
         />
       </a>
       <div className="mt-4 px-5 pb-5">
         <a href="#">
-          <h5 className="text-xl font-semibold mb-3 text-gray-900 text-left">{product.title}</h5>
+          <h5 className="text-xl font-semibold mb-3 text-gray-900 text-left">{product?.name}</h5>
         </a>
 
         <div className="flex items-center">
-          {[...Array(product.rating)].map((_, index) => (
+          {/* Render stars based on rounded rating */}
+          {[...Array(roundedRating)].map((_, index) => (
             <svg
               key={index}
               aria-hidden="true"
@@ -50,14 +57,18 @@ const ProductCard = ({ product }) => {
               <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
             </svg>
           ))}
-          <span className="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-sm font-base">{product.rating}.0</span>
+          <span className="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-sm font-base">{product?.rating || 0}</span>
         </div>
 
         <div className="mt-2 mb-5 flex items-center justify-between">
           <div className="flex items-center text-left">
-            <p className="text-lg font-semibold mb-1 text-gray-900">₹{product.price}.00</p>
-            <p className="text-ms font-normal text-gray-500 line-through ml-4">₹{product.previous_price}.00</p>
-            <p className="text-sm font-semibold text-green-500 ml-4">({product.discount}% Off)</p>
+            <p className="text-lg font-semibold mb-1 text-gray-900">₹{product?.price}.00</p>
+            {previousPrice && (
+              <>
+                <p className="text-ms font-normal text-gray-500 line-through ml-4">₹{previousPrice}.00</p>
+                <p className="text-sm font-semibold text-green-500 ml-4">({discount}% Off)</p>
+              </>
+            )}
           </div>
         </div>
 

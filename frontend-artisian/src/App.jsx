@@ -10,27 +10,32 @@ import { Inventory } from "./components/Inventory/Inventory";
 import { Orders } from "./components/Orders/Order";
 import { AddProduct } from "./components/Inventory/AddProduct";
 import Landingpage from "./pages/Landingpage";
+import SearchPage from "./pages/SearchPage";
+import ProductDetail from "./pages/ProductDetail";
+
+
+
 
 function App() {
   return (
     <Routes>
 
       <Route path="/" element={<Landingpage />} />
-      <Route path="/product/:id" element={<ProductPage />}></Route>
-      
+      <Route path="/product/:id" element={<ProductDetail />}></Route>
+
 
       <Route path="/wishlist" element={<Wishlist />}></Route>
       <Route path="/profile" element={<Profile />}></Route>
       <Route path="/cart" element={<Cart />}></Route>
-      <Route path="/searchresult" element={<SearchResult />}></Route>
+      <Route path="/searchresult" element={<SearchPage />}></Route>
 
       <Route path="/products" element={<ProductPage />}></Route>
-     
+
       {/* <Route path="/connect" element={<CallPage />}></Route> */}
       <Route path="/admin" element={<Dashboard />} />
       <Route path="/admin/inventory" element={<Inventory />} />
-      <Route path='/admin/orders' element={<Orders />} />      
-      <Route path='/admin/add-product' element={<AddProduct />} />      
+      <Route path='/admin/orders' element={<Orders />} />
+      <Route path='/admin/add-product' element={<AddProduct />} />
 
     </Routes>
   );

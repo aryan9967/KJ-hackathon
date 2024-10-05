@@ -6,6 +6,8 @@ import logo from "../assets/logo1e copy.png";
 import { Button } from "./ui/button";
 import { Heart, User, Phone } from "lucide-react";
 import axios from "axios";
+import SearchBar from "./SearchBar";
+import SearchInput from "./SearchInput";
 
 const Navbar = () => {
   async function handle_emergency() {
@@ -22,7 +24,7 @@ const Navbar = () => {
       <div className="container flex items-center justify-between h-full">
         {/* Logo */}
         <img
-          
+
           alt="Logo"
           className="h-8 w-[120px] mr-7 ml-5 mt-0.5"
         />
@@ -71,12 +73,13 @@ const Navbar = () => {
                 Profile
               </NavLink>
             </li>
-            
+
           </ul>
+          <SearchBar />
 
           {/* Search Form */}
 
-      
+
         </div>
       </div>
     </nav>
