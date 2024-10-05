@@ -40,6 +40,7 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Phone, Mail, Video, PhoneCall } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import ChatbotArtisan from "@/components/ChatbotArtisan";
 
 
 export default function Dashboard() {
@@ -518,6 +519,7 @@ export default function Dashboard() {
             </Card>
           </div>
         </div>
+        
       </div>
     </div>
   );
