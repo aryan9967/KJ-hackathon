@@ -33,28 +33,28 @@ const readDocument = async (collectionName, docName) => {
 
 async function fetchAllDocuments(collectionName) {
   try {
-      const collectionRef = db.collection(collectionName);
-      const snapshot = await collectionRef.get();
+    const collectionRef = db.collection(collectionName);
+    const snapshot = await collectionRef.get();
 
-      if (snapshot.empty) {
-          console.log('No matching documents.');
-          return [];
-      }
+    if (snapshot.empty) {
+      console.log('No matching documents.');
+      return [];
+    }
 
-      const documents = [];
-      snapshot.forEach(doc => {
-          documents.push({
-              id: doc.id,          // Document ID
-              ...doc.data()        // Document Data
-          });
+    const documents = [];
+    snapshot.forEach(doc => {
+      documents.push({
+        id: doc.id,          // Document ID
+        ...doc.data()        // Document Data
       });
+    });
 
-      console.log("Fetched Documents:", documents);
-      return documents;
+    console.log("Fetched Documents:", documents);
+    return documents;
 
   } catch (error) {
-      console.error("Error fetching documents:", error);
-      throw new Error('Unable to fetch documents');
+    console.error("Error fetching documents:", error);
+    throw new Error('Unable to fetch documents');
   }
 }
 
@@ -113,4 +113,31 @@ const uploadImage = async (pid, files) => {
 
 }
 
-export {createOrUpdateDocument, readDocument, deleteDocument, updateDocument, uploadImage, fetchAllDocuments}
+const searchProductsByExactName = async (searchString) => {
+  try {
+    // Reference to products collection
+    const productsRef = db.collection('product');
+
+    // Create a query to find products where name exactly matches the search string
+    const querySnapshot = await productsRef.where('name', '==', searchString).get()
+
+    // Execute the query
+    // const querySnapshot = await getDocs(searchQuery);
+
+    // Extract and return products
+    const products = [];
+    querySnapshot.forEach((doc) => {
+      products.push({
+        id: doc.id,
+        ...doc.data()
+      });
+    });
+
+    return products;
+  } catch (error) {
+    console.error('Error searching for products:', error);
+    throw error;
+  }
+};
+
+export { createOrUpdateDocument, readDocument, deleteDocument, updateDocument, uploadImage, fetchAllDocuments, searchProductsByExactName }

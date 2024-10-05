@@ -42,6 +42,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 import { useEffect, useState } from "react"
 import NavbarAdmin from "./NavbarAdmin"
+import ChatbotArtisan from "../ChatbotArtisan"
 
 
 
@@ -219,6 +220,7 @@ export function Dashboard() {
                         </Card>
 
                     </div>
+                    <ChatbotArtisan />
                 </main>
             </div>
         </div>

@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import { socket } from "../socket";
+import { socketArtisan } from "../socketArtisan";
 import { speakText } from "../speech";
 import AIicon from "../../public/Animation - 1723745985736.webm";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSearchResult } from "@/context/SearchContext";
 
-export default function Chatbot() {
+export default function ChatbotArtisan() {
   const [transcript1, setTranscript] = useState(null);
-  const recognitionRef = useRef(null);
+  const recognitionRefArtisan = useRef(null);
   const transcriptRef = useRef(transcript1);
   const accumulatedTranscriptRef = useRef("");
   const chatStatusref = useRef(false);
@@ -18,7 +18,7 @@ export default function Chatbot() {
   const { storeSearchResult } = useSearchResult();
   const location = useRef();
   const [chatContent, setChatContent] = useState(
-    "Hello, I am Art madad, your personal shopping assistant. How may I assist you?"
+    "Hello, I am Art madad, your personal website assistant. How may I assist you?"
   );
   // Update the ref whenever transcript1 changes
   useEffect(() => {
@@ -49,7 +49,7 @@ export default function Chatbot() {
   }, [transcript1]);
 
   useEffect(() => {
-    const chatStatus = localStorage.getItem("chatActive");
+    const chatStatus = localStorage.getItem("chatActive1");
     chatStatusref.current = chatStatus;
     console.log(chatStatus);
     // if (chatStatus) {
@@ -59,18 +59,18 @@ export default function Chatbot() {
   }, []);
 
   const startChat = () => {
-    socket.connect();
+    socketArtisan.connect();
 
-    socket.on("connect", () => {
-      console.log(socket.id);
+    socketArtisan.on("connect", () => {
+      console.log(socketArtisan.id);
     });
 
     const textToSpeak =
-      "Hello, I am Art madad, your personal shopping assistant. How may I assist you?";
+      "Hello, I am Art madad, your personal website assistant. How may I assist you?";
 
-    if (window.location.pathname === "/" && chatStatusref.current) {
+    
       speakText(textToSpeak);
-    }
+    
 
     startRecognition();
   };
@@ -90,7 +90,7 @@ export default function Chatbot() {
         if (result.isFinal) {
           finalTranscript += result[0].transcript;
           setTimeout(() => {
-            recognitionRef.current.stop();
+            recognitionRefArtisan.current.stop();
             console.log("stopped by timeout");
           }, 2500);
         } else {
@@ -111,7 +111,7 @@ export default function Chatbot() {
       if (accumulatedTranscriptRef.current) {
         console.log(accumulatedTranscriptRef.current);
         setChatContent(accumulatedTranscriptRef.current);
-        socket.emit("prompt", accumulatedTranscriptRef.current);
+        socketArtisan.emit("prompt", accumulatedTranscriptRef.current);
       }
       accumulatedTranscriptRef.current = "";
       setTranscript(accumulatedTranscriptRef.current);
@@ -124,11 +124,11 @@ export default function Chatbot() {
       console.error("Speech recognition error", event.error);
     };
 
-    recognitionRef.current = recognition;
+    recognitionRefArtisan.current = recognition;
 
     // return () => {
-    //   if (recognitionRef.current) {
-    //     recognitionRef.current.stop();
+    //   if (recognitionRefArtisan.current) {
+    //     recognitionRefArtisan.current.stop();
     //   }
     // };
   }, []);
@@ -263,16 +263,16 @@ export default function Chatbot() {
       startRecognition();
     };
 
-    socket.on("response", handleResponse);
+    socketArtisan.on("response", handleResponse);
 
     return () => {
-      socket.off("response", handleResponse); // Clean up the listener
+      socketArtisan.off("response", handleResponse); // Clean up the listener
     };
   }, []);
 
   const startRecognition = () => {
-    if (recognitionRef.current) {
-      recognitionRef.current.start();
+    if (recognitionRefArtisan.current) {
+      recognitionRefArtisan.current.start();
     }
   };
 
@@ -284,10 +284,10 @@ export default function Chatbot() {
         onClick={() => {
           if (!loopref.current) {
             startChat();
-            localStorage.setItem("chatActive", "true");
+            localStorage.setItem("chatActive1", "true");
             setChatVisibility(true);
           } else {
-            localStorage.setItem("chatActive", "false");
+            localStorage.setItem("chatActive1", "false");
           }
           loopref.current = !loopref.current;
         }}

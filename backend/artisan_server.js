@@ -4,7 +4,7 @@ import { Server } from "socket.io"
 import { AImodel } from "./controllers/geminiAi.js"
 import cors from "cors"
 import bodyParser from "body-parser"
-import { createOrUpdateDocument, fetchAllDocuments, readDocument, searchProductsByExactName, updateDocument } from "./controllers/CRUD.js"
+import { createOrUpdateDocument, fetchAllDocuments, updateDocument } from "./controllers/CRUD.js"
 import multer from "multer"
 import { admin, db } from "./controllers/firestore.js";
 
@@ -208,214 +208,17 @@ Additionally, as an assistant on an artisan marketplace, you will help users buy
 app.use(cors())
 app.use(bodyParser.json())
 
-app.get("/all_products", (req, res) => {
-    res.status(200).send(all_products)
-})
-
 app.get("/profile", (req, res) => {
     res.status(200).send(profile)
 })
 
-app.post("/search-product", async (req, res)=>{
-    console.log("search query", req.body.search_value)
-    const products = await searchProductsByExactName(req.body.search_value)
-    res.status(200).send(products)
+app.get("/update-gemini-context", async (req, res)=>{
+    await fetch_all_products()
+    res.status(200).send("context updated successfully")
 })
 
-app.post("/get-single-product", async(req, res)=>{
-    const pid = req.body.pid
-    const data = await readDocument('product', pid)
-    res.status(200).send(data)
-})
-
-//reverse geocoding
-const reverseGeocode = async (latitude, longitude) => {
-    const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`;
-
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Error during reverse geocoding:', error);
-        return null;
-    }
-};
-
-
-
-app.get("/cart", (req, res) => {
-    res.status(200).send(cart)
-})
-
-app.get("/wishlist", (req, res) => {
-    res.status(200).send(wishlist)
-})
-
-app.post("/add_to_cart", (req, res) => {
-    const keyword = req.body.product_name
-    console.log(keyword)
-    const str_keyword = String(keyword)
-    const search_list = all_products.products
-
-    let search_result
-    for (let i = 0; i < search_list.length; i++) {
-        console.log("product ", search_list[i])
-        // Check if the product name contains the keyword (case-insensitive)
-
-        if (search_list[i].name.toLowerCase() == str_keyword.toLowerCase()) {
-            search_result = search_list[i];
-            break
-        }
-    }
-    console.log("search result", search_result)
-    const isInCart = cart.cart_products.some(product => product.id === search_result.id);
-
-    if (!isInCart) {
-        // Add the product to the cart if it is not already present
-        cart.cart_products.push(search_result);
-        res.status(200).send(`${search_result.name} added successfully to cart`);
-    } else {
-        // Send a response indicating that the product is already in the cart
-        res.status(200).send(`${search_result.name} is already present in cart`);
-    }
-
-})
-
-app.post("/add_to_wishlist", (req, res) => {
-    const keyword = req.body.product_name
-    console.log(keyword)
-    const str_keyword = String(keyword)
-    const search_list = all_products.products
-
-    let search_result
-    for (let i = 0; i < search_list.length; i++) {
-        console.log("product ", search_list[i])
-        // Check if the product name contains the keyword (case-insensitive)
-
-        if (search_list[i].name.toLowerCase() == str_keyword.toLowerCase()) {
-            search_result = search_list[i];
-            break
-        }
-    }
-    console.log("search result", search_result)
-    const isInwishlist = wishlist.wishlist_products.some(product => product.id === search_result.id);
-
-    if (!isInwishlist) {
-        // Add the product to the cart if it is not already present
-        wishlist.wishlist_products.push(search_result);
-        res.status(200).send(`${search_result.name} added successfully to wishlist`);
-    } else {
-        // Send a response indicating that the product is already in the cart
-        res.status(200).send(`${search_result.name} is already present in wishlist`);
-    }
-
-})
-
-app.post("/create-product", upload.any(), async (req, res) => {
-    console.log("Request Body:", req.body);
-    const { name, desc, stock, category, price, threshold, seller_name, status } = req.body;
-    const pid = `pid${Date.now()}`;
-    let images = [];
-    let rating = 4.5;
-    let questions = [];
-    let sales = 10
-
-    console.log("Files:", req.files);  // Log uploaded files
-    console.log("Number of files:", req.files.length);  // Log number of files
-
-    try {
-        if (req.files && req.files.length > 0) {
-            let count = 1; // Initialize file count for naming
-            for (let file of req.files) {
-                const blob = bucket.file(`products/${pid}/${count}`);
-
-                // Upload the file to Google Cloud Storage
-                await new Promise((resolve, reject) => {
-                    const blobStream = blob.createWriteStream({
-                        metadata: {
-                            contentType: file.mimetype,  // Set content type
-                        },
-                    });
-
-                    blobStream.on("error", (err) => {
-                        console.error("Upload error:", err);
-                        reject(new Error("File upload error occurred."));
-                    });
-
-                    blobStream.on("finish", async () => {
-                        await blob.makePublic();  // Make file public
-                        const img_url = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
-                        images.push(img_url);  // Add image URL to array
-                        console.log(`Image uploaded: ${img_url}`);
-                        count++;
-                        resolve();  // Resolve promise when finished
-                    });
-
-                    blobStream.end(file.buffer);  // End the stream and upload the file
-                });
-            }
-        }
-
-        if (images.length > 0) {
-            // Create product data object
-            const product_data = {
-                pid,
-                name,
-                desc,
-                stock,
-                category,
-                price,
-                threshold,
-                images,  // Array of image URLs
-                rating,
-                questions,
-                seller_name,
-                status,
-                sales
-            };
-
-            // Save product data to Firestore (or any other DB)
-            await createOrUpdateDocument("product", pid, product_data);
-
-            console.log("Product created successfully:", product_data);
-            return res.status(200).send("Product created successfully");
-        }
-        await fetch_all_products()
-        return res.status(400).send("No images were uploaded");
-    } catch (error) {
-        console.error("Error uploading product:", error);
-        return res.status(500).send("Internal server error");
-    }
-});
-
-app.post("/edit-product", async (req, res) => {
-    try {
-        const { pid, name, desc, stock, category, price, threshold, seller_name, status } = req.body;
-        const product_data = {
-            pid,
-            name,
-            desc,
-            stock,
-            category,
-            price,
-            threshold,
-            seller_name,
-            status
-        };
-        await updateDocument("product", pid, product_data)
-        res.status(200).send("Product updated successfully")
-    }
-    catch (err) {
-        res.status(500).send("Internal server error")
-    }
-
-
-})
-
-
-httpserver.listen(3000, () => {
-    console.log("server is running on port 3000")
+httpserver.listen(8000, () => {
+    console.log("server is running on port 8000")
 })
 
 export { io }
