@@ -19,6 +19,7 @@ import CallPage from "./pages/CallPage";
 import { TodoProvider } from "./context/TodoContext";
 import { AppointmentProvider } from "./context/AppointmentContext";
 import { MedicationProvider } from "./context/MedicationContext";
+import Landingpage from "./pages/Landingpage";
 
 
 
@@ -36,6 +37,7 @@ function App() {
       <Route path="/medical" element={<MedicalHistoryPage />}></Route>
       <Route path="/caregiver" element={<Caregiver />}></Route>
       <Route path="/doctor" element={<Doctor />}></Route>
+      <Route path="/landing" element={<Landingpage />}></Route>
       {/* <Route path="/connect" element={<CallPage />}></Route> */}
     </Routes>
   );

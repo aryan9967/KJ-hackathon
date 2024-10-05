@@ -10,7 +10,7 @@
 .main_screen{
     height: 90vh;
     overflow: auto;
-    background-color: rgb(237, 237, 237);
+    background-color: #faf1e6;
 }
 .logo {
     padding: 0;

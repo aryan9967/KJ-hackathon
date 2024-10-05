@@ -13,6 +13,12 @@ export default {
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		colors: {
+			beige: {
+				100: '#faf1e6', // Light beige color
+			  },
+			earthybrown: {
+				100: '#D2B48C',
+			},
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
