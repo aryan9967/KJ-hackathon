@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { socket } from "../socket";
 import { speakText } from "../speech";
 import AIicon from "../../public/Animation - 1723745985736.webm";
+import AIicon1 from "../../public/Animation - 1728194516292.webm";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSearchResult } from "@/context/SearchContext";
@@ -17,6 +18,7 @@ export default function Chatbot() {
   const [chatVisibility, setChatVisibility] = useState(false);
   const { storeSearchResult } = useSearchResult();
   const location = useRef();
+  const videoRef = useRef(null)
   const [chatContent, setChatContent] = useState(
     "Hello, I am Art madad, your personal shopping assistant. How may I assist you?"
   );
@@ -154,7 +156,6 @@ export default function Chatbot() {
     speakText(data);
     setChatContent(data);
   }
-  
 
   useEffect(() => {
     const handleResponse = (response) => {
@@ -231,16 +232,16 @@ export default function Chatbot() {
 
         // Define a mapping of possible variations to correct routes
         const pageRoutes = {
-            home: "/",
-            homepage: "/",
-            wishlist: "/wishlist",
-            wishlistpage: "/wishlist",
-            cart: "/cart",
-            cartpage: "/cart",
-            profile: "/profile",
-            profilepage: "/profile",
-            products: "/products",
-            productspage: "/products",
+          home: "/",
+          homepage: "/",
+          wishlist: "/wishlist",
+          wishlistpage: "/wishlist",
+          cart: "/cart",
+          cartpage: "/cart",
+          profile: "/profile",
+          profilepage: "/profile",
+          products: "/products",
+          productspage: "/products",
         };
 
         // Check if the normalized page name exists in the mapping
@@ -272,7 +273,7 @@ export default function Chatbot() {
 
   const stopRecognition = () => {
     if (recognitionRef.current) {
-        recognitionRef.current.continuous = false
+      recognitionRef.current.continuous = false;
       recognitionRef.current.stop(); // Stops the recognition process
       loopref.current = false; // Ensure it doesn't restart
       console.log("Recognition stopped manually", loopref.current);
@@ -289,14 +290,28 @@ export default function Chatbot() {
             startChat();
             localStorage.setItem("chatActive", "true");
             setChatVisibility(true);
-            loopref.current = true
+            loopref.current = true;
+            if (videoRef.current) {
+              videoRef.current.play(); // Play the video
+            }
           } else {
-            stopRecognition()
+            stopRecognition();
             localStorage.setItem("chatActive", "false");
+            loopref.current = false;
+            if (videoRef.current) {
+              videoRef.current.pause(); // Pause the video
+            }
           }
         }}
       >
-        <video src={AIicon} alt="AI Icon Video" autoPlay muted loop />
+        <video
+          ref={videoRef} // Attach the ref to the video element
+          src={AIicon1}
+          alt="AI Icon Video"
+          className="rounded-full"
+          muted
+          loop
+        />
       </button>
       {chatVisibility ? (
         <div className="output-div" id="output-div">

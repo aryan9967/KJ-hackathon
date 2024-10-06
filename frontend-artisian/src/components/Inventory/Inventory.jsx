@@ -118,7 +118,7 @@ export function Inventory() {
   useEffect(() => {
     const fetchInventory = async () => {
       try {
-        const response = await fetch("http://localhost:3000/all_products");
+        const response = await fetch("http://localhost:8000/all_products");
         const result = await response.json();
         setProducts(result);
       } catch (error) {

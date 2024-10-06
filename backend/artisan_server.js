@@ -63,17 +63,17 @@ io.on('connection', (socket) => {
         role: "user",
         parts: [
             {
-                text: `You are a personal assistant named ArtisanHelper, designed to assist artisans in managing their products and accessing analytics on an eCommerce platform. Your responses should be plain text, free of any emojis. If the user asks to go to or open a particular location, reply with "open LOCATION NAME," substituting "LOCATION NAME" with one of the four available locations on the website: the dashboard, inventory page, orders page, or add-product page.
+                text: `You are a personal assistant named ArtisanHelper, designed to assist artisans in managing their products and accessing analytics on an eCommerce platform. Your responses should be plain text, free of any emojis.
 
-You should only map the user's input to the provided pages. If the user mentions a page that doesn't exist, such as a profile page, simply respond with "cannot perform this action."
+If the user asks to go to or open a particular location, reply with "open LOCATION NAME," substituting "LOCATION NAME" with one of the four available locations on the website: the dashboard, inventory page, orders page, or add-product page.
 
-When the user asks to navigate to or open a page, try to map their input to the closest matching page. If the user explicitly mentions the word "page," slice that part out, and do not include it in the response. Your command should simply be "open LOCATION NAME," without including the word "page." For example, if the user says "open dashboard page," your response should be "open dashboard."
+If the user explicitly mentions the word "page," slice that part out, and do not include it in the response. Your command should simply be "open LOCATION NAME," without including the word "page." For example, if the user says "open dashboard page," your response should be "open dashboard."
+
+When the user wants help with adding a product, respond with "open addproduct."
 
 If the user wants to check product analytics, provide a summary based on the available data. If they inquire about a specific product, initially provide the name, status (e.g., in stock, low stock, out of stock), and the number of units sold. If the user expresses interest, follow up with additional details such as the product's performance trends or customer feedback.
 
-If you are unable to perform a specific task, respond with "cannot perform this action."
-
-As an assistant on an artisan management platform, you will help artisans manage their inventory, add new products, track orders, and get analytics. Keep responses concise and focused on managing artisan products and gaining insights into their performance.`
+If you are unable to perform a specific task, respond with "cannot perform this action.`
             },
         ],
     },
@@ -148,6 +148,93 @@ app.get("/update-gemini-context", async (req, res) => {
     await fetch_all_products()
     await fetch_all_orders()
     res.status(200).send("context updated successfully")
+})
+
+app.get("/get-orders", async (req, res) => {
+    const data = await fetchAllDocuments('orders')
+    res.status(200).send(data)
+})
+
+app.post("/create-product", upload.any(), async (req, res) => {
+    console.log("Request Body:", req.body);
+    const { name, desc, stock, category, price, threshold, seller_name, status } = req.body;
+    const pid = `pid${Date.now()}`;
+    let images = [];
+    let rating = 4.5;
+    let questions = [];
+    let sales = 10
+
+    console.log("Files:", req.files);  // Log uploaded files
+    console.log("Number of files:", req.files.length);  // Log number of files
+
+    try {
+        if (req.files && req.files.length > 0) {
+            let count = 1; // Initialize file count for naming
+            for (let file of req.files) {
+                const blob = bucket.file(`products/${pid}/${count}`);
+
+                // Upload the file to Google Cloud Storage
+                await new Promise((resolve, reject) => {
+                    const blobStream = blob.createWriteStream({
+                        metadata: {
+                            contentType: file.mimetype,  // Set content type
+                        },
+                    });
+
+                    blobStream.on("error", (err) => {
+                        console.error("Upload error:", err);
+                        reject(new Error("File upload error occurred."));
+                    });
+
+                    blobStream.on("finish", async () => {
+                        await blob.makePublic();  // Make file public
+                        const img_url = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+                        images.push(img_url);  // Add image URL to array
+                        console.log(`Image uploaded: ${img_url}`);
+                        count++;
+                        resolve();  // Resolve promise when finished
+                    });
+
+                    blobStream.end(file.buffer);  // End the stream and upload the file
+                });
+            }
+        }
+
+        if (images.length > 0) {
+            // Create product data object
+            const product_data = {
+                pid,
+                name,
+                desc,
+                stock,
+                category,
+                price,
+                threshold,
+                images,  // Array of image URLs
+                rating,
+                questions,
+                seller_name,
+                status,
+                sales
+            };
+
+            // Save product data to Firestore (or any other DB)
+            await createOrUpdateDocument("product", pid, product_data);
+
+            console.log("Product created successfully:", product_data);
+            await fetch_all_products()
+            return res.status(200).send("Product created successfully");
+        }
+
+        return res.status(400).send("No images were uploaded");
+    } catch (error) {
+        console.error("Error uploading product:", error);
+        return res.status(500).send("Internal server error");
+    }
+});
+
+app.get("/all_products", async (req, res) => {
+    res.status(200).send(await fetchAllDocuments('product'))
 })
 
 httpserver.listen(8000, () => {

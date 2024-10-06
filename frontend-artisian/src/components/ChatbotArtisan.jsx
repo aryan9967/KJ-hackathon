@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { socketArtisan } from "../socketArtisan";
 import { speakText } from "../speech";
 import AIicon from "../../public/Animation - 1723745985736.webm";
+import AIicon1 from "../../public/Animation - 1728194516292.webm";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSearchResult } from "@/context/SearchContext";
@@ -17,6 +18,7 @@ export default function ChatbotArtisan() {
   const [chatVisibility, setChatVisibility] = useState(false);
   const { storeSearchResult } = useSearchResult();
   const location = useRef();
+  const videoRef2 = useRef()
   const [chatContent, setChatContent] = useState(
     "Hello, I am Art madad, your personal website assistant. How may I assist you?"
   );
@@ -115,7 +117,7 @@ export default function ChatbotArtisan() {
       }
       accumulatedTranscriptRef.current = "";
       setTranscript(accumulatedTranscriptRef.current);
-      console.log("loopRef", loopref.current)
+      console.log("loopRef", loopref.current);
       if (loopref.current) {
         startRecognition();
       }
@@ -151,15 +153,15 @@ export default function ChatbotArtisan() {
 
         // Define a mapping of possible variations to correct routes
         const pageRoutes = {
-            dashboard: "/admin",
-            dashboardpage: "/admin",
-            inventory: "/admin/inventory",
-            inventorypage: "/admin/inventory",
-            orders: "/admin/orders",
-            orderspage: "/admin/orders",
-            addproduct: "/admin/add-product",
-            addproductpage: "/admin/add-product",
-          };
+          dashboard: "/admin",
+          dashboardpage: "/admin",
+          inventory: "/admin/inventory",
+          inventorypage: "/admin/inventory",
+          orders: "/admin/orders",
+          orderspage: "/admin/orders",
+          addproduct: "/admin/add-product",
+          addproductpage: "/admin/add-product",
+        };
 
         // Check if the normalized page name exists in the mapping
         if (pageRoutes[pagename]) {
@@ -190,7 +192,7 @@ export default function ChatbotArtisan() {
 
   const stopRecognition = () => {
     if (recognitionRef.current) {
-        recognitionRef.current.continuous = false
+      recognitionRef.current.continuous = false;
       recognitionRef.current.stop(); // Stops the recognition process
       loopref.current = false; // Ensure it doesn't restart
       console.log("Recognition stopped manually", loopref.current);
@@ -203,20 +205,33 @@ export default function ChatbotArtisan() {
         className="button AIbutton chatbot"
         id="AIbutton2"
         onClick={() => {
-            console.log(loopref.current)
+          console.log(loopref.current);
           if (!loopref.current) {
             startChat();
             localStorage.setItem("chatActive1", "true");
             setChatVisibility(true);
-            loopref.current = true
+            loopref.current = true;
+            if (videoRef2.current) {
+              videoRef2.current.play(); // Play the video
+            }
           } else {
             stopRecognition();
             localStorage.setItem("chatActive1", "false");
+            loopref.current = false;
+            if (videoRef2.current) {
+              videoRef2.current.pause(); // Pause the video
+            }
           }
-          
         }}
       >
-        <video src={AIicon} alt="AI Icon Video" autoPlay muted loop />
+        <video
+          ref={videoRef2} // Attach the ref to the video element
+          src={AIicon1}
+          alt="AI Icon Video"
+          muted
+          className="rounded-full"
+          loop
+        />
       </button>
       {chatVisibility ? (
         <div className="output-div" id="output-div">

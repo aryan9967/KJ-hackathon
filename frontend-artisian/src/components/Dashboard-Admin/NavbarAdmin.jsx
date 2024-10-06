@@ -25,6 +25,8 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { LanguageProvider } from "@/context/LanguaugeContext"
+import LanguageSwitch from "../LanguageSwitch"
 
 
 
@@ -58,17 +60,12 @@ function NavbarAdmin() {
                             Inventory
                         </Link>
                         <Link
-                            to={'/admin/profile'}
+                            to={'/admin/add-product'}
                             className="text-muted-foreground transition-colors hover:text-foreground"
                         >
-                            Profile
+                            Add Product
                         </Link>
-                        <Link
-                            href="#"
-                            className="text-muted-foreground transition-colors hover:text-foreground"
-                        >
-                            Analytics
-                        </Link>
+                    
                     </nav>
                     <Sheet>
                         <SheetTrigger asChild>
@@ -121,7 +118,7 @@ function NavbarAdmin() {
                         </SheetContent>
                     </Sheet>
                     <div className="flex w-full items-center justify-end gap-4 md:ml-auto md:gap-2 lg:gap-4">
-
+                        <LanguageSwitch />
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="secondary" size="icon" className="rounded-full">

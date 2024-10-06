@@ -85,7 +85,7 @@ export const description =
     useEffect(() => {
       const fetchOrders = async () => {
         try {
-          const response = await fetch("http://localhost:3000/get-orders");
+          const response = await fetch("http://localhost:8000/get-orders");
           const result = await response.json();
           setOrders(result);
           console.log(result);
@@ -193,7 +193,7 @@ export const description =
                                 <TableCell className="hidden md:table-cell">
                                   {new Date(order.date).toLocaleDateString()}
                                 </TableCell>
-                                <TableCell className="text-right">{order.amount.toFixed(2)}</TableCell>
+                                <TableCell className="text-right">{order.amount}</TableCell>
                               </TableRow>
                             ))}
                           </TableBody>
@@ -247,7 +247,7 @@ export const description =
                               <span className="text-muted-foreground">
                                 Product x <span>{selectedOrder.qauntity}</span>
                               </span>
-                              <span>${selectedOrder.amount.toFixed(2)}</span>
+                              <span>${selectedOrder.amount}</span>
                             </li>
                           </ul>
                           <Separator className="my-2" />

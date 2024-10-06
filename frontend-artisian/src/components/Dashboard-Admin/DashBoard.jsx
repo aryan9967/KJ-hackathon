@@ -38,7 +38,7 @@ export function Dashboard() {
   useEffect(() => {
     const fetchSales = async () => {
       try {
-        const res = await fetch("http://localhost:3000/get-orders");
+        const res = await fetch("http://localhost:8000/get-orders");
         if (!res.ok) {
           throw new Error("Error while fetching sales");
         }

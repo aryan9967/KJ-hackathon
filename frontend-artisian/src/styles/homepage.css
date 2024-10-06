@@ -121,8 +121,8 @@
 }
 
 .AIbutton {
-    height: 100px;
-    width: 100px;
+    height: 120px;
+    width: 120px;
     border: none;
     border-radius: 50%;
     position: fixed;
@@ -137,8 +137,8 @@
 }
 
 .AIbutton video {
-    height: 100px;
-    width: 100px;
+    height: 120px;
+    width: 120px;
 }
 
 .whislist_btn {

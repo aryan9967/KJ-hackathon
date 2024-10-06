@@ -98,7 +98,7 @@ export function AddProduct() {
             }
 
 
-            const response = await fetch('http://localhost:3000/create-product', {
+            const response = await fetch('http://localhost:8000/create-product', {
                 method: 'POST',
                 body: formData,
             });
@@ -120,11 +120,11 @@ export function AddProduct() {
             <div className='navbar_container'>
                 <NavbarAdmin />
             </div>
-            <div className='main_screen'>
+            <div className=''>
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col bg-beige-100">
                     <div className="py-4">
                         <main className="">
-                            <div className="mx-auto grid max-w-[70rem] flex-1 auto-rows-max gap-4 0">
+                            <div className="mx-auto grid max-w-[70rem] flex-1 auto-rows-max gap-4 ">
                                 <div className="flex items-center gap-4">
                                     <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold  sm:grow-0">
                                         Add Product
@@ -337,10 +337,12 @@ export function AddProduct() {
                                     </Button>
                                 </div>
                             </div>
-                            <ChatbotArtisan />
+                            
                         </main>
                     </div>
                 </form>
+                
+                <ChatbotArtisan />
             </div>
         </div>
 
