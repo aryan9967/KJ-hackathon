@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { Upload } from 'lucide-react';
-import NavbarAdmin from '../Dashboard-Admin/NavbarAdmin'; // Adjust the import path as necessary
+import NavbarAdmin from '../Dashboard-Admin/NavbarAdmin';
 import { Button } from '../ui/button';
-
 import {
     Card,
     CardContent,
-    CardDescription,
     CardHeader,
     CardTitle,
 } from '../ui/card';
@@ -21,122 +19,92 @@ import {
     SelectValue,
 } from '../ui/select';
 import { Textarea } from '../ui/textarea';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-
-export function AddProduct() {
-    const { control, handleSubmit } = useForm({
-        defaultValues: {
-            name: '',
-            desc: '',
-            stock: '',
-            category: '',
-            price: '',
-            threshold: '',
-            seller_name: '',
-            status: '',
-            images: []
-        }
-    });
+export function Product() {
+    const { control, handleSubmit, setValue } = useForm();
     const [loading, setLoading] = useState(false);
+    const location = useLocation();
+    const navigate = useNavigate();
+    const [selectedImage, setSelectedImage] = useState('');
     const [images, setImages] = useState([]);
-    const [selectedImage, setSelectedImage] = useState(null);
 
-    const handleImageUpload = (e, onChange) => {
-        const files = Array.from(e.target.files);
-        const newImages = files.map(file => ({
-            file,
-            preview: URL.createObjectURL(file)
-        }));
+    // Use the product data from location state, or use a default empty object
+    const product = location.state?.product || {};
+    console.log("Product",product);
+    
 
-        setImages(prevImages => {
-            const updatedImages = [...prevImages, ...newImages].slice(0, 3);
-            onChange(updatedImages.map(img => img.file)); // Update form value
-            return updatedImages;
-        });
+    useEffect(() => {
+        // Populate form fields with product data
+        setValue('name', product.name || '');
+        setValue('desc', product.desc || '');
+        setValue('price', product.price || '');
+        setValue('stock', product.stock || '');
+        setValue('threshold', product.threshold || '');
+        setValue('category', product.category || '');
+        setValue('status', product.status || '');
+        setValue('seller_name', product.seller_name || '');
+        setValue('pid',product.pid)
 
-        if (!selectedImage && newImages.length > 0) {
-            setSelectedImage(newImages[0].preview);
+        // Set up images
+        if (product.images && product.images.length > 0) {
+            setSelectedImage(product.images[0]);
+            setImages(product.images.map(url => ({ preview: url })));
         }
-    };
-
+    }, [product, setValue]);
 
     const onSubmit = async (data) => {
+        setLoading(true);
+        console.log("Saving changes:", data);
+        delete data.images
+        console.log(data);
+        
         try {
-            setLoading(true);
-            const formData = new FormData();
-
-            // Append non-image data
-            Object.keys(data).forEach(key => {
-                if (key !== 'images') {
-                    formData.append(key, data[key]);
-                }
-            });
-
-            // Handle image uploads
-            if (data.images && data.images.length > 0) {
-                console.log('Images array:', data.images);
-                data.images.forEach((image, index) => {
-                    if (image instanceof File) {
-                        formData.append(`image${index + 1}`, image);
-                        console.log(`Appended image${index + 1}:`, image.name, image.type, image.size);
-                    } else {
-                        console.warn(`Image at index ${index} is not a File object:`, image);
-                    }
-                });
-            } else {
-                console.warn('No images found in data.images');
-            }
-
-            console.log('FormData contents:');
-            for (let [key, value] of formData.entries()) {
-                if (value instanceof File) {
-                    console.log(key, value.name, value.type, value.size);
-                } else {
-                    console.log(key, value);
-                }
-            }
-
-
-            const response = await fetch('http://localhost:3000/create-product', {
-                method: 'POST',
-                body: formData,
-            });
-
+            const response = await fetch('http://localhost:3000/edit-product',{
+                method: "POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify(data)
+            })
             const result = await response.json();
             console.log(result);
-            setLoading(false);
+            navigate('/admin/inventory')
+            
         } catch (error) {
-            console.error(error);
-            setLoading(false);
+            console.log("Error in Editing image",error);  
         }
+        setLoading(false);
     };
 
-
+    
 
     return (
+        <div className="main_container">
+            <div className="navbar_container">
+                <NavbarAdmin />
+            </div>
 
-        <div>
-            <NavbarAdmin />
             <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col bg-beige-100">
-                <div className="py-4">
-                    <main className="">
-                        <div className="mx-auto grid max-w-[70rem] flex-1 auto-rows-max gap-4 0">
+                <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
+                    <main className="grid flex-1 items-start gap-4 sm:py-0 md:gap-8">
+                        <div className="mx-auto grid max-w-[65rem] flex-1 auto-rows-max gap-4">
                             <div className="flex items-center gap-4">
-                                <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold  sm:grow-0">
-                                    Add Product
+                                <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
+                                    Save Changes
                                 </h1>
                                 <div className="hidden items-center gap-2 md:ml-auto md:flex">
-                                    <Button type="button" variant="outline" size="sm">
+                                    <Button type="button" variant="outline" size="sm" onClick={() => navigate('/admin/inventory')}>
                                         Discard
                                     </Button>
                                     <Button type="submit" size="sm" disabled={loading}>
-                                        {loading ? 'Adding...' : 'Add Product'}
+                                        {loading ? 'Saving...' : 'Save Changes'}
                                     </Button>
                                 </div>
                             </div>
                             <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
                                 <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-                                    <Card className = "">
+                                    <Card>
                                         <CardHeader>
                                             <CardTitle>Product Details</CardTitle>
                                         </CardHeader>
@@ -205,12 +173,12 @@ export function AddProduct() {
                                                         name="category"
                                                         control={control}
                                                         render={({ field }) => (
-                                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                            <Select onValueChange={field.onChange} value={field.value}>
                                                                 <SelectTrigger id="category" aria-label="Select category">
                                                                     <SelectValue placeholder="Select category" />
                                                                 </SelectTrigger>
                                                                 <SelectContent>
-                                                                    <SelectItem value="ceramics">Ceramics</SelectItem>
+                                                                    <SelectItem value="sculptures">Sculptures</SelectItem>
                                                                     <SelectItem value="jewelery">Jewelery</SelectItem>
                                                                     <SelectItem value="woodworking">Woodworking</SelectItem>
                                                                     <SelectItem value="paintings">Paintings</SelectItem>
@@ -237,7 +205,7 @@ export function AddProduct() {
                                                         name="status"
                                                         control={control}
                                                         render={({ field }) => (
-                                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                            <Select onValueChange={field.onChange} value={field.value}>
                                                                 <SelectTrigger id="status" aria-label="Select status">
                                                                     <SelectValue placeholder="Select status" />
                                                                 </SelectTrigger>
@@ -259,7 +227,7 @@ export function AddProduct() {
                                         </CardHeader>
                                         <CardContent>
                                             <div className="grid gap-2">
-                                                {selectedImage ? (
+                                                {selectedImage && (
                                                     <img
                                                         alt="Selected product image"
                                                         className="aspect-square w-full rounded-md object-cover"
@@ -267,10 +235,6 @@ export function AddProduct() {
                                                         src={selectedImage}
                                                         width="300"
                                                     />
-                                                ) : (
-                                                    <div className="aspect-square w-full rounded-md border-2 border-dashed flex items-center justify-center text-gray-400">
-                                                        No image selected
-                                                    </div>
                                                 )}
                                                 <div className="grid grid-cols-3 gap-2">
                                                     {images.map((image, index) => (
@@ -293,7 +257,7 @@ export function AddProduct() {
                                                                     <input
                                                                         type="file"
                                                                         className="hidden"
-                                                                        onChange={(e) => handleImageUpload(e, field.onChange)}
+                                                                        
                                                                         multiple
                                                                         accept="image/*"
                                                                     />
@@ -325,11 +289,11 @@ export function AddProduct() {
                                 </div>
                             </div>
                             <div className="flex items-center justify-center gap-2 md:hidden">
-                                <Button type="button" variant="outline" size="sm">
+                                <Button type="button" variant="outline" size="sm" onClick={() => navigate('/admin/inventory')}>
                                     Discard
                                 </Button>
                                 <Button type="submit" size="sm" disabled={loading}>
-                                    {loading ? 'Adding...' : 'Add Product'}
+                                    {loading ? 'Saving...' : 'Save Changes'}
                                 </Button>
                             </div>
                         </div>
@@ -337,6 +301,5 @@ export function AddProduct() {
                 </div>
             </form>
         </div>
-
     );
 }

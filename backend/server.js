@@ -207,6 +207,7 @@ app.use(cors())
 app.use(bodyParser.json())
 
 app.get("/all_products", (req, res) => {
+    console.log(all_products)
     res.status(200).send(all_products)
 })
 
@@ -429,6 +430,8 @@ app.post("/edit-product", async (req, res) => {
 
 
 })
+
+
 
 
 httpserver.listen(3000, () => {

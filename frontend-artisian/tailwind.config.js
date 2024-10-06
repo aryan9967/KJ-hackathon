@@ -14,7 +14,8 @@ export default {
   		},
   		colors: {
 			beige: {
-				100: '#faf1e6', // Light beige color
+				100: '#faf1e6',
+				200: '#E2D8C2' // Light beige color
 			  },
 			earthybrown: {
 				100: '#D2B48C',

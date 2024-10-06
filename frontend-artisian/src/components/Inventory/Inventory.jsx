@@ -1,30 +1,11 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
-  File,
-  Home,
-  LineChart,
-  ListFilter,
   MoreHorizontal,
-  Package,
-  Package2,
-  PanelLeft,
-  PlusCircle,
-  Search,
-  Settings,
-  ShoppingCart,
-  Users2,
   Image as ImageIcon, Edit, Trash
 } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
+
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -36,15 +17,10 @@ import {
 } from "@/components/ui/card"
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   Table,
   TableBody,
@@ -53,13 +29,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs"
 import NavbarAdmin from '../Dashboard-Admin/NavbarAdmin'
+import { useEffect, useState } from 'react'
 
 
 export const description =
@@ -67,30 +38,44 @@ export const description =
 
 export function Inventory() {
 
-  const dummyData = [
-    { id: 1, name: "Handcrafted Ceramic Vase", status: "Active", price: 89.99, totalSales: 42, category: "Home Decor", image: "/placeholder.svg" },
-    { id: 2, name: "Artisanal Cheese Board", status: "Active", price: 59.99, totalSales: 28, category: "Kitchen", image: "/placeholder.svg" },
-    { id: 3, name: "Hand-knitted Wool Scarf", status: "Draft", price: 45.00, totalSales: 0, category: "Accessories", image: "/placeholder.svg" },
-    { id: 4, name: "Wooden Wall Clock", status: "Active", price: 79.99, totalSales: 15, category: "Home Decor", image: "/placeholder.svg" },
-    { id: 5, name: "Handmade Leather Wallet", status: "Active", price: 69.99, totalSales: 37, category: "Accessories", image: "/placeholder.svg" },
-    { id: 6, name: "Botanical Print Set", status: "Draft", price: 34.99, totalSales: 0, category: "Art", image: "/placeholder.svg" },
-  ];
+  const [dummyData, setDummyData] = useState([]);
+
+  useEffect(() => {
+    const fetchInventory = async () => {
+      const response = await fetch('http://localhost:3000/all_products')
+      const result = await response.json();
+      console.log(result);
+      
+      setDummyData(result.products)
+    }
+
+    fetchInventory();
+  }, []);
 
   const statusColors = {
-    Active: "bg-green-100 text-green-800",
-    Draft: "bg-yellow-100 text-yellow-800",
+    active: "bg-green-100 text-green-800",
+    draft: "bg-yellow-100 text-yellow-800",
   };
 
   const categoryColors = {
-    "Home Decor": "bg-blue-100 text-blue-800",
-    Kitchen: "bg-purple-100 text-purple-800",
-    Accessories: "bg-pink-100 text-pink-800",
-    Art: "bg-indigo-100 text-indigo-800",
+    ceramics: "bg-green-100 text-green-800",
+    jewelery: "bg-yellow-100 text-yellow-800",
+    woodworking: "bg-orange-800 text-white",
+    paintings: "bg-red-100 text-red-800",
+    marbles: "bg-teal-100 text-teal-800",
   };
+  const navigate = useNavigate();
   return (
-    <div className="flex min-h-screen w-full flex-col bg-gray-50">
+    <div className="flex min-h-screen w-full flex-col bg-beige-100">
       <NavbarAdmin />
       <div className="flex flex-col gap-4 p-6">
+        <div className='flex justify-end pr-2 '> 
+          <Button className="bg-orange-800 text-white hover:bg-orange-900" onClick = {() => {
+            navigate("/admin/add-product")
+          }}>
+            Add Product
+          </Button>
+        </div>
         <Card className="w-full">
           <CardHeader>
             <CardTitle className="text-2xl font-bold text-gray-800">Local Artisan Products</CardTitle>
@@ -109,50 +94,58 @@ export function Inventory() {
                   <TableHead className="w-[80px]">Actions</TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody>
+              <TableBody >
                 {dummyData.map((product) => (
-                  
-                    <TableRow className="cursor-pointer hover:bg-gray-100"> {/* Added cursor-pointer */}
-                      <TableCell>
-                        <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
-                          <ImageIcon className="h-6 w-6 text-gray-500" />
-                        </div>
-                      </TableCell>
+                
+                  <TableRow key={product.id} className="cursor-pointer hover:bg-gray-100"> {/* Added cursor-pointer */}
+                    <TableCell>
+                      <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
+                        <Link to={'/admin/product'}
+                        state={{product}}>
+                        <img
+                          src= {product.images[0]}
+                          alt="Image description"
+                          className="h-10 w-10 rounded-full object-cover"
+                        />
+                        </Link>
+                      </div>
+                    </TableCell>
 
-                      <TableCell className="font-medium">{product.name}</TableCell>
-                      <TableCell>
-                        <Badge className={`${statusColors[product.status]} font-semibold`} variant="outline">
-                          {product.status}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>${product.price.toFixed(2)}</TableCell>
-                      <TableCell>{product.totalSales}</TableCell>
-                      <TableCell>
-                        <Badge className={`${categoryColors[product.category]} font-semibold`} variant="outline">
-                          {product.category}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button size="sm" variant="ghost">
-                              <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem>
-                              <Edit className="mr-2 h-4 w-4" />
-                              Edit
-                            </DropdownMenuItem>
-                            <DropdownMenuItem className="text-red-600">
-                              <Trash className="mr-2 h-4 w-4" />
-                              Delete
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </TableCell>
-                    </TableRow>
-                  
+                    <TableCell className="font-medium">{product.name}</TableCell>
+                    <TableCell>
+                      <Badge className={`${statusColors[product.status]} font-semibold`} variant="outline">
+                        {product.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>₹{product.price}</TableCell>
+                    <TableCell>{product.sales}</TableCell>
+                    <TableCell>
+                      <Badge className={`${categoryColors[product.category]} font-semibold`} variant="outline">
+                        {product.category}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button size="sm" variant="ghost">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem>
+                            <Edit className="mr-2 h-4 w-4" />
+                            Edit
+                          </DropdownMenuItem>
+                          <DropdownMenuItem className="text-red-600">
+                            <Trash className="mr-2 h-4 w-4" />
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                
+
                 ))}
               </TableBody>
             </Table>

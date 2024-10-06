@@ -30,7 +30,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 function NavbarAdmin() {
     return (
-        <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
+        <header className="top-0 flex h-16 items-center gap-4 border-b bg-background  px-4 md:px-6">
                     <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
                         <Link
                             href="#"
@@ -40,28 +40,28 @@ function NavbarAdmin() {
                             <span className="sr-only">Acme Inc</span>
                         </Link>
                         <Link
-                            href="#"
+                            to={'/admin'}
                             className="text-foreground transition-colors hover:text-foreground"
                         >
                             Dashboard
                         </Link>
                         <Link
-                            href="#"
+                            to={'/admin/orders'}
                             className="text-muted-foreground transition-colors hover:text-foreground"
                         >
                             Orders
                         </Link>
                         <Link
-                            href="#"
+                            to={'/admin/inventory'}
                             className="text-muted-foreground transition-colors hover:text-foreground"
                         >
-                            Products
+                            Inventory
                         </Link>
                         <Link
-                            href="#"
+                            to={'/admin/profile'}
                             className="text-muted-foreground transition-colors hover:text-foreground"
                         >
-                            Customers
+                            Profile
                         </Link>
                         <Link
                             href="#"
