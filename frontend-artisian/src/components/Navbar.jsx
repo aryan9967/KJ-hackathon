@@ -73,7 +73,7 @@ const Navbar = () => {
           <div className="flex-grow"></div>
 
           {/* Search Bar */}
-          <div className="search_bar flex-shrink-0 mr-5">
+          <div className="search_bar flex-shrink-0 mr-16">
             <SearchBar />
           </div>
         </div>
