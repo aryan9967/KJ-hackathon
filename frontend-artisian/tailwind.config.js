@@ -7,6 +7,9 @@ export default {
   ],
   theme: {
   	extend: {
+		textShadow: {
+			'outline': '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000',
+		  },
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
@@ -85,6 +88,15 @@ export default {
   		}
   	}
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"),
+	function ({ addUtilities }) {
+		const newUtilities = {
+		  '.text-shadow-outline': {
+			textShadow: '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000',
+		  },
+		}
+		addUtilities(newUtilities, ['responsive', 'hover'])
+	  }
+  ],
 }
 
