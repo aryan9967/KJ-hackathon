@@ -1,5 +1,7 @@
+import axios from "axios";
 import { Heart, ShoppingCart } from "lucide-react"; // Import the ShoppingCart icon
 import React, { useState } from "react";
+import { Button } from "react-day-picker";
 import { Link } from "react-router-dom";
 
 const CartCard = ({ product }) => {
@@ -8,6 +10,23 @@ const CartCard = ({ product }) => {
   // Function to toggle the favorite state
   const toggleFavorite = () => {
     setIsFavorite((prev) => !prev);
+  };
+
+  const buyNow = async () => {
+    try {
+      const { data } = await axios.post(`http://localhost:3000/create-order`, {
+        name: 'Aryan Maurya',
+        email: "aryan.maurya@gmail.com",
+        pid: product?.pid,
+        amount: product?.price,
+        address: 'Mumbai',
+        qauntity: 1
+      });
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
   };
 
   const discount = 15;
@@ -63,7 +82,7 @@ const CartCard = ({ product }) => {
 
         {/* Buy Now Button */}
         <Link
-          to="#"
+          onClick={buyNow}
           className="flex items-center justify-center rounded-md bg-orange-800 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-4 focus:ring-orange-300"
         >
           <ShoppingCart className="mr-2" size={16} /> {/* Buy Icon */}

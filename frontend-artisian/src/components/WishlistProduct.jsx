@@ -22,6 +22,23 @@ const WishlistProduct = ({ product, onAddToCart, onBuyNow }) => {
     }
   };
 
+  const buyNow = async () => {
+    try {
+      const { data } = await axios.post(`http://localhost:3000/create-order`, {
+        name: 'Ayush Sharma',
+        email: "ayush.sharma@gmail.com",
+        pid: product?.pid,
+        amount: product?.price,
+        address: 'Mumbai',
+        qauntity: 1
+      });
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  };
+
   // Function to toggle favorite state
   const toggleFavorite = () => {
     setIsFavorite((prev) => !prev);
@@ -104,7 +121,7 @@ const WishlistProduct = ({ product, onAddToCart, onBuyNow }) => {
             <span className="ml-1">Add to Cart</span>
           </button>
           <button
-            onClick={() => onBuyNow(product)}
+            onClick={() => buyNow()}
             className="w-1/2 bg-orange-800 hover:bg-orange-700 text-white font-bold py-2 rounded-md flex justify-center items-center"
             style={{ transform: isHovered ? 'scale(1.01)' : 'scale(1)' }}
           >
