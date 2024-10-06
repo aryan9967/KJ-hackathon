@@ -10,14 +10,14 @@ import { LanguageProvider } from "./context/LanguaugeContext.jsx";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <SearchProvider>
-      {/* <LanguageProvider> */}
+      <LanguageProvider>
       <BrowserRouter>
         <ChatbotProvider>
           
           <App />
         </ChatbotProvider>
       </BrowserRouter>
-      {/* </LanguageProvider> */}
+      </LanguageProvider>
     </SearchProvider>
   </StrictMode>
 );

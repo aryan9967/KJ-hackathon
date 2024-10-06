@@ -6,6 +6,8 @@ import { Button } from "./ui/button";
 import { Heart, User, Phone } from "lucide-react";
 import axios from "axios";
 import SearchBar from "./SearchBar";
+import SearchInput from "./SearchInput";
+import LanguageSwitch from "./LanguageSwitch";
 
 const Navbar = () => {
   async function handle_emergency() {
@@ -68,14 +70,12 @@ const Navbar = () => {
               </NavLink>
             </li>
           </ul>
+          <LanguageSwitch />
+          <SearchBar />
 
-          {/* Empty space to push the search bar to the right */}
-          <div className="flex-grow"></div>
+          {/* Search Form */}
 
-          {/* Search Bar */}
-          <div className="search_bar flex-shrink-0 mr-16">
-            <SearchBar />
-          </div>
+
         </div>
       </div>
     </nav>
