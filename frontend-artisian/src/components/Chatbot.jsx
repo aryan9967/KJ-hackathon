@@ -191,12 +191,6 @@ export default function Chatbot() {
         return;
       }
 
-      const SOS = "SOS";
-      if (response.indexOf(SOS) > -1) {
-        handle_emergency();
-        return;
-      }
-
       if (response.toLowerCase().indexOf("add_todo") > -1) {
         // Slice the ADD_TODO command and get the title
         const title = response.replace("ADD_TODO", "").trim();
@@ -276,6 +270,15 @@ export default function Chatbot() {
     }
   };
 
+  const stopRecognition = () => {
+    if (recognitionRef.current) {
+        recognitionRef.current.continuous = false
+      recognitionRef.current.stop(); // Stops the recognition process
+      loopref.current = false; // Ensure it doesn't restart
+      console.log("Recognition stopped manually", loopref.current);
+    }
+  };
+
   return (
     <>
       <button
@@ -286,10 +289,11 @@ export default function Chatbot() {
             startChat();
             localStorage.setItem("chatActive", "true");
             setChatVisibility(true);
+            loopref.current = true
           } else {
+            stopRecognition()
             localStorage.setItem("chatActive", "false");
           }
-          loopref.current = !loopref.current;
         }}
       >
         <video src={AIicon} alt="AI Icon Video" autoPlay muted loop />

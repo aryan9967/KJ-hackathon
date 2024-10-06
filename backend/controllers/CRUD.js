@@ -5,8 +5,10 @@ const bucket = admin.storage().bucket()
 
 const createOrUpdateDocument = async (collectionName, docName, data) => {
   try {
+    console.log(data)
     const docRef = db.collection(collectionName).doc(docName);
-    await docRef.set(data, { merge: true }); // merge: true to update only specific fields
+    console.log("writting data")
+    await docRef.set(data); // merge: true to update only specific fields
     console.log("Document successfully written!");
   } catch (error) {
     console.error("Error writing document: ", error);

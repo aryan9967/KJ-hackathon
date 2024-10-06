@@ -8,7 +8,7 @@ import { useSearchResult } from "@/context/SearchContext";
 
 export default function ChatbotArtisan() {
   const [transcript1, setTranscript] = useState(null);
-  const recognitionRefArtisan = useRef(null);
+  const recognitionRef = useRef(null);
   const transcriptRef = useRef(transcript1);
   const accumulatedTranscriptRef = useRef("");
   const chatStatusref = useRef(false);
@@ -66,11 +66,11 @@ export default function ChatbotArtisan() {
     });
 
     const textToSpeak =
-      "Hello, I am Art madad, your personal website assistant. How may I assist you?";
+      "Hello, I am Art madad, your personal shopping assistant. How may I assist you?";
 
-    
+    if (window.location.pathname == "/admin" && chatStatusref.current) {
       speakText(textToSpeak);
-    
+    }
 
     startRecognition();
   };
@@ -90,7 +90,7 @@ export default function ChatbotArtisan() {
         if (result.isFinal) {
           finalTranscript += result[0].transcript;
           setTimeout(() => {
-            recognitionRefArtisan.current.stop();
+            recognitionRef.current.stop();
             console.log("stopped by timeout");
           }, 2500);
         } else {
@@ -115,6 +115,7 @@ export default function ChatbotArtisan() {
       }
       accumulatedTranscriptRef.current = "";
       setTranscript(accumulatedTranscriptRef.current);
+      console.log("loopRef", loopref.current)
       if (loopref.current) {
         startRecognition();
       }
@@ -124,108 +125,21 @@ export default function ChatbotArtisan() {
       console.error("Speech recognition error", event.error);
     };
 
-    recognitionRefArtisan.current = recognition;
+    recognitionRef.current = recognition;
 
-    // return () => {
-    //   if (recognitionRefArtisan.current) {
-    //     recognitionRefArtisan.current.stop();
-    //   }
-    // };
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
+    };
   }, []);
-
-  async function add_to_cart(product_name) {
-    const last_index = product_name.indexOf(`\\`);
-    const new_product_name = String(product_name.slice(0, last_index).trim());
-    const { data } = await axios.post("http://localhost:3000/add_to_cart", {
-      product_name: new_product_name,
-    });
-    console.log(data);
-    speakText(data);
-    setChatContent(data);
-  }
-
-  async function add_to_wishlist(product_name) {
-    const last_index = product_name.indexOf(`\\`);
-    const new_product_name = String(product_name.slice(0, last_index).trim());
-    const { data } = await axios.post("http://localhost:3000/add_to_wishlist", {
-      product_name: new_product_name,
-    });
-    console.log(data);
-    speakText(data);
-    setChatContent(data);
-  }
-  
 
   useEffect(() => {
     const handleResponse = (response) => {
       console.log(response);
 
-      const first_index = response.indexOf(`{`);
-      const last_index = response.lastIndexOf(`}`);
-      if (first_index > -1 && last_index > -1) {
-        const json_extract = response.slice(first_index, last_index + 1);
-        const response_json = JSON.parse(json_extract);
-        if (
-          response_json.operation &&
-          response_json.operation.toLowerCase() == "appointment"
-        ) {
-          book_appointment(response_json);
-          return;
-        } else if (
-          response_json.operation &&
-          response_json.operation.toLowerCase() == "medication"
-        ) {
-          add_medication(response_json);
-        }
-      }
-
-      if (first_index > -1 && last_index > -1) {
-        const json_extract = response.slice(first_index, last_index + 1);
-        const response_json = JSON.parse(json_extract);
-        console.log(response_json);
-        localStorage.setItem("search_result", JSON.stringify(response_json));
-        storeSearchResult(response_json);
-        navigate("/searchresult");
-        speakText(response_json.summary);
-        setChatContent(response_json.summary);
-        return;
-      }
-
-      const SOS = "SOS";
-      if (response.indexOf(SOS) > -1) {
-        handle_emergency();
-        return;
-      }
-
-      if (response.toLowerCase().indexOf("add_todo") > -1) {
-        // Slice the ADD_TODO command and get the title
-        const title = response.replace("ADD_TODO", "").trim();
-        console.log(title); // This will give you the remaining part of the response after removing "ADD_TODO"
-        add_todo(title);
-        return;
-      }
-
-      if (response.toLowerCase().indexOf("hire") > -1) {
-        const lower_case_response = response.toLowerCase();
-        console.log(lower_case_response);
-        const care_giver_id = lower_case_response.replace("hire", "").trim();
-        console.log(care_giver_id); // This will give you the remaining part of the response after removing "ADD_TODO"
-        hire_caregiver(care_giver_id);
-        return;
-      }
-
       const parts = response.split(" ");
-      if (parts[0].toLowerCase() === "cart") {
-        console.log(response.slice(5));
-        add_to_cart(response.slice(5));
-        return;
-      }
 
-      if (parts[0].toLowerCase() === "wishlist") {
-        console.log(response.slice(9));
-        add_to_wishlist(response.slice(9));
-        return;
-      }
       let pagename;
 
       // If the command starts with "open", process it
@@ -237,17 +151,15 @@ export default function ChatbotArtisan() {
 
         // Define a mapping of possible variations to correct routes
         const pageRoutes = {
-            home: "/",
-            homepage: "/",
-            wishlist: "/wishlist",
-            wishlistpage: "/wishlist",
-            cart: "/cart",
-            cartpage: "/cart",
-            profile: "/profile",
-            profilepage: "/profile",
-            products: "/products",
-            productspage: "/products",
-        };
+            dashboard: "/admin",
+            dashboardpage: "/admin",
+            inventory: "/admin/inventory",
+            inventorypage: "/admin/inventory",
+            orders: "/admin/orders",
+            orderspage: "/admin/orders",
+            addproduct: "/admin/add-product",
+            addproductpage: "/admin/add-product",
+          };
 
         // Check if the normalized page name exists in the mapping
         if (pageRoutes[pagename]) {
@@ -271,8 +183,17 @@ export default function ChatbotArtisan() {
   }, []);
 
   const startRecognition = () => {
-    if (recognitionRefArtisan.current) {
-      recognitionRefArtisan.current.start();
+    if (recognitionRef.current) {
+      recognitionRef.current.start();
+    }
+  };
+
+  const stopRecognition = () => {
+    if (recognitionRef.current) {
+        recognitionRef.current.continuous = false
+      recognitionRef.current.stop(); // Stops the recognition process
+      loopref.current = false; // Ensure it doesn't restart
+      console.log("Recognition stopped manually", loopref.current);
     }
   };
 
@@ -280,16 +201,19 @@ export default function ChatbotArtisan() {
     <>
       <button
         className="button AIbutton"
-        id="AIbutton"
+        id="AIbutton2"
         onClick={() => {
+            console.log(loopref.current)
           if (!loopref.current) {
             startChat();
             localStorage.setItem("chatActive1", "true");
             setChatVisibility(true);
+            loopref.current = true
           } else {
+            stopRecognition();
             localStorage.setItem("chatActive1", "false");
           }
-          loopref.current = !loopref.current;
+          
         }}
       >
         <video src={AIicon} alt="AI Icon Video" autoPlay muted loop />

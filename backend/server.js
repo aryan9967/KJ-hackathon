@@ -34,10 +34,12 @@ const profile = {
 
 
 async function fetch_all_products() {
+    console.log("fetching all products")
     all_products.products.push(...(await fetchAllDocuments("product")))
 }
 
-async function fetch_previous_orders(){
+async function fetch_previous_orders() {
+    console.log("fetching all orders")
     profile.previous_orders.push(...(await fetchAllDocuments("orders")))
 }
 
@@ -224,9 +226,8 @@ Additionally, as an assistant on an artisan marketplace, you will help users buy
 app.use(cors())
 app.use(bodyParser.json())
 
-app.get("/all_products", (req, res) => {
-    console.log(all_products)
-    res.status(200).send(all_products)
+app.get("/all_products", async (req, res) => {
+    res.status(200).send(await fetchAllDocuments('product'))
 })
 
 app.get("/profile", (req, res) => {
@@ -245,8 +246,8 @@ app.post("/get-single-product", async (req, res) => {
     res.status(200).send(data)
 })
 
-app.post("/create-order", async(req, res)=>{
-    const {name, email, pid, amount, address, qauntity} = req.body
+app.post("/create-order", async (req, res) => {
+    const { name, email, pid, amount, address, qauntity } = req.body
     const date = Date.now()
     const orderId = `order${date}`
     const status = "pending"
@@ -256,10 +257,11 @@ app.post("/create-order", async(req, res)=>{
     }
 
     await createOrUpdateDocument('orders', orderId, order_data)
+    await fetch_previous_orders()
     res.status(200).send("order placed successfully")
 })
 
-app.get("/get-orders", async(req, res)=>{
+app.get("/get-orders", async (req, res) => {
     const data = await fetchAllDocuments('orders')
     res.status(200).send(data)
 })
@@ -415,9 +417,10 @@ app.post("/create-product", upload.any(), async (req, res) => {
             await createOrUpdateDocument("product", pid, product_data);
 
             console.log("Product created successfully:", product_data);
+            await fetch_all_products()
             return res.status(200).send("Product created successfully");
         }
-        await fetch_all_products()
+
         return res.status(400).send("No images were uploaded");
     } catch (error) {
         console.error("Error uploading product:", error);
