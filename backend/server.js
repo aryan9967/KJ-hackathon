@@ -49,28 +49,46 @@ console.log("all_products", all_products)
 const cart = {
     "cart_products": [
         {
-            "id": 5,
-            "name": "Shower Chair with Backrest",
-            "description": "A sturdy shower chair with a backrest for elderly individuals who need extra support while bathing.",
-            "price": 2500.00,
-            "ratingAverage": 4.9,
-            "ratingCount": 350,
-            "imgUrl": "https://firebasestorage.googleapis.com/v0/b/minithon-7a420.appspot.com/o/codestorm%2Fshower_chair.jpg?alt=media&token=1aff6936-cf66-4451-8c99-e6ba9dc7ef32"
-        },
+            "category": "marbles",
+            "desc": "This elegant flower vase is made from premium marble and hand-carved with delicate floral motifs. The smooth surface and natural sheen of the marble make it a sophisticated addition to any home. The vase’s timeless design complements both traditional and modern interiors, making it a versatile decorative piece. Perfect for displaying fresh flowers or as a stand-alone ornament, this vase showcases the artisan’s attention to detail and craftsmanship. Its durability ensures that it will remain a treasured part of your decor for years to come.\r\n",
+            "images": [
+                "https://storage.googleapis.com/kj-hackathon-88e7e.appspot.com/products/pid1728147512497/1",
+                "https://storage.googleapis.com/kj-hackathon-88e7e.appspot.com/products/pid1728147512497/2"
+            ],
+            "name": "StoneGrace Vase",
+            "pid": "pid1728147512497",
+            "price": "100",
+            "questions": [],
+            "rating": 4.5,
+            "sales": 10,
+            "seller_name": "Om Pawaskar",
+            "status": "active",
+            "stock": "12",
+            "threshold": "4"
+        }
     ]
 }
 
 const wishlist = {
     "wishlist_products": [
         {
-            "id": 4,
-            "name": "Grabber Reacher Tool",
-            "description": "A lightweight reacher tool designed to help elderly individuals grab items from hard-to-reach places without bending.",
-            "price": 1500.00,
-            "ratingAverage": 4.8,
-            "ratingCount": 600,
-            "imgUrl": "https://firebasestorage.googleapis.com/v0/b/minithon-7a420.appspot.com/o/codestorm%2Fgrabber_reacher.jpg?alt=media&token=868eb908-a6c2-4e9f-9122-fdfc32644104"
-        },
+            "category": "paintings",
+            "desc": "Worli painting is more than just art; it's a reflection of our culture and traditions passed down through generations. Every stroke tells the story of our tribal life in Maharashtra. Look at the simplicity—yet the elegance—of these forms. We use only a few colors, like white on earthy backgrounds, but the impact is timeless. These figures, whether dancing, farming, or celebrating, represent the harmony between humans and nature.",
+            "images": [
+                "https://storage.googleapis.com/kj-hackathon-88e7e.appspot.com/products/pid1728140279812/1"
+            ],
+            "name": "Worli Paintings",
+            "pid": "pid1728140279812",
+            "price": "200",
+            "questions": [],
+            "rating": 4.5,
+            "sales": 0,
+            "seller_name": "Om Pawaskar",
+            "status": "active",
+            "stock": "100",
+            "threshold": "19"
+        }
+
     ]
 }
 
@@ -215,13 +233,13 @@ app.get("/profile", (req, res) => {
     res.status(200).send(profile)
 })
 
-app.post("/search-product", async (req, res)=>{
+app.post("/search-product", async (req, res) => {
     console.log("search query", req.body.search_value)
     const products = await searchProductsByExactName(req.body.search_value)
     res.status(200).send(products)
 })
 
-app.post("/get-single-product", async(req, res)=>{
+app.post("/get-single-product", async (req, res) => {
     const pid = req.body.pid
     const data = await readDocument('product', pid)
     res.status(200).send(data)

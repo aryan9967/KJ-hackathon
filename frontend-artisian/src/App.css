@@ -205,3 +205,14 @@ body {
   /* Adjust the height as needed */
   opacity: 1;
 }
+
+.category_button {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  background-color: white;
+  cursor: pointer;
+}
+
+.category_button.active {
+  background-color: #fdf6ed
+}

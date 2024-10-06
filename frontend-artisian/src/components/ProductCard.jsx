@@ -1,50 +1,76 @@
-import { Heart } from "lucide-react"; // Import only the Heart icon
-import React, { useState } from "react";
+import axios from "axios";
+import { Heart } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
-  const [isFavorite, setIsFavorite] = useState(false); // State to track if the item is favorited
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const navigate = useNavigate();
 
-  // Function to toggle the favorite state
-  const toggleFavorite = () => {
-    setIsFavorite((prev) => !prev);
+  const addToWishlist = async (name) => {
+    setIsProcessing(true); // Disable pointer events during API call
+    try {
+      const { data } = await axios.post(`http://localhost:3000/add_to_wishlist`, {
+        product_name: name,
+      });
+      console.log(data);
+      return true;
+    } catch (error) {
+      console.error("Error adding to wishlist:", error);
+      return false;
+    } finally {
+      setIsProcessing(false); // Re-enable pointer events after operation
+    }
   };
 
-  const discount = 15; // Static discount percentage
-  const previousPrice = Math.round(product?.price / (1 - discount / 100)); // Calculate the previous price
+  const handleIconClick = async (name) => {
+    if (!isProcessing && await addToWishlist(name)) {
+      setIsFavorite(!isFavorite);
+    }
+  };
 
-  // Ensure the rating is an integer
+  const viewProduct = async (pid) => {
+    navigate(`/product/${pid}`);
+  };
+
+  const discount = 15;
+  const previousPrice = Math.round(product?.price / (1 - discount / 100));
   const roundedRating = Math.floor(product?.rating || 0);
 
   return (
-    <div className="relative flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md" style={{ backgroundColor: "#fdf6ed" }}>
-      {/* Wishlist Icon */}
+    <div
+      className="relative flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md"
+      style={{ backgroundColor: "#fdf6ed", pointerEvents: isProcessing ? "none" : "auto" }}
+    >
       <button
-        onClick={toggleFavorite} // Toggle favorite state on click
+        onClick={() => { handleIconClick(product?.name); }}
         className="absolute top-3 right-3 z-10 p-1.5 rounded-full"
         style={{ backgroundColor: "#fff" }}
       >
-        {/* Conditional fill and border color */}
         <Heart
-          className={isFavorite ? "fill-red-600 text-red-600" : "text-red-600"} // Change based on state
+          className={isFavorite ? "fill-red-600 text-red-600" : "text-red-600"}
           size={22}
-          strokeWidth={isFavorite ? 0 : 2} // Show border if not favorite
+          strokeWidth={isFavorite ? 0 : 2}
         />
       </button>
 
-      <a className="relative mx-2.5 mt-2.5 flex h-60 overflow-hidden rounded-xl" href="#">
+      <Link className="relative mx-2.5 mt-2.5 flex h-60 overflow-hidden rounded-xl"
+        to={`/product/${product?.id}`}>
         <img
-          className="object-cover w-full h-full" // Ensure image covers the container and maintains aspect ratio
+          onClick={() => { viewProduct(product?.id); }}
+          className="object-cover w-full h-full"
           src={product?.images[0]}
           alt={product?.name}
         />
-      </a>
+      </Link>
+
       <div className="mt-4 px-5 pb-5">
-        <a href="#">
+        <Link to={`/product/${product?.id}`}>
           <h5 className="text-xl font-semibold mb-3 text-gray-900 text-left">{product?.name}</h5>
-        </a>
+        </Link>
 
         <div className="flex items-center">
-          {/* Render stars based on rounded rating */}
           {[...Array(roundedRating)].map((_, index) => (
             <svg
               key={index}
@@ -72,12 +98,12 @@ const ProductCard = ({ product }) => {
           </div>
         </div>
 
-        <a
-          href="#"
-          className="flex items-center justify-center rounded-md bg-orange-800 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-4 focus:ring-orange-300"
+        <Link
+          to={`/product/${product?.pid}`}
+          className="flex items-center justify-center rounded-md bg-orange-800 px-5 py-2.5 text-center text-sm font-medium text-white"
         >
-          <span>View Details</span>
-        </a>
+          <button>View Details</button>
+        </Link>
       </div>
     </div>
   );
