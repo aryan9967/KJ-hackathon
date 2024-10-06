@@ -57,12 +57,12 @@ const Hero = () => {
 >
 
               <div className="mt-auto w-2/3 md:max-w-lg ps-5 pb-5 md:ps-10 md:pb-10">
-                <span className="block text-white text-xl md:text-2xl font-bold mb-2 text-shadow-outline">
-                  {slide.title}
-                </span>
-                <span className="block text-white text-3xl md:text-5xl font-bold leading-tight text-shadow-outline">
-                  {slide.description}
-                </span>
+              <span className="block text-white text-xl md:text-2xl font-bold mb-2 text-shadow-outline">
+  {slide.title}
+</span>
+<span className="block text-white text-3xl md:text-5xl font-bold leading-tight text-shadow-outline">
+  {slide.description}
+</span>
                 <div className="mt-5">
                   <a
                     className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl bg-white border border-transparent text-black hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
