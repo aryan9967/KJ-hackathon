@@ -15,9 +15,9 @@ export default function Profile() {
 
   async function get_profile() {
     try {
-      const { data } = await axios.get("http://localhost:3000/profile");
+      const { data } = await axios.get("http://localhost:3000/get-orders");
       console.log(data);
-      const prevData = data?.previous_orders || [];
+      const prevData = data || [];
 
       // Use Promise.all to handle multiple async requests
       const prevOrderData = await Promise.all(
