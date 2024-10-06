@@ -14,15 +14,11 @@ const Home = () => {
   const steps = [
     {
       target: '.first-step',
-      content: 'Navigate to different parts of website through here.',
+      content: 'Welcome! 🎉 Use this navigation bar to explore different sections of our website easily.',
     },
     {
       target: '.second-step',
-      content: 'I am your personal assistant.',
-    },
-    {
-      target: '.third-step',
-      content: 'This is the final step!',
+      content: 'Hi there! 👋 I am your virtual voice assistant, here to help you with any questions or guidance you need. 🤗',
     },
   ];
 

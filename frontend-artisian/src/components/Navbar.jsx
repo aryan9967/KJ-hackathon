@@ -10,23 +10,11 @@ import SearchInput from "./SearchInput";
 import LanguageSwitch from "./LanguageSwitch";
 
 const Navbar = () => {
-  async function handle_emergency() {
-    console.log("emergency detected");
-    console.log(location.current);
-    const { data } = await axios.post("http://localhost:3000/send-SOS", {
-      location: location.current,
-    });
-    console.log(data);
-  }
-
   return (
     <nav className="bg-[#fff] h-[10vh] shadow-lg border-b">
       <div className="container flex items-center justify-between h-full">
         {/* Logo */}
-        <img
-          alt="Logo"
-          className="h-8 w-[120px] mr-7 ml-5 mt-0.5"
-        />
+        <img alt="Logo" className="h-8 w-[120px] mr-7 ml-5 mt-0.5" />
 
         {/* Mobile Toggle Button */}
         <button
@@ -42,7 +30,10 @@ const Navbar = () => {
         </button>
 
         {/* Navbar Links */}
-        <div className="hidden lg:flex w-full justify-between items-center" id="navbarSupportedContent">
+        <div
+          className="hidden lg:flex w-full justify-between  items-center"
+          id="navbarSupportedContent"
+        >
           <ul className="flex space-x-4 text-black">
             <li>
               <NavLink className="nav-link mr-3 text-black" to="/">
@@ -70,12 +61,12 @@ const Navbar = () => {
               </NavLink>
             </li>
           </ul>
-          <LanguageSwitch />
-          <SearchBar />
+          <div className="right_side flex">
+            <LanguageSwitch />
+            <SearchBar />
+          </div>
 
           {/* Search Form */}
-
-
         </div>
       </div>
     </nav>
