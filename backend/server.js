@@ -35,12 +35,12 @@ const profile = {
 
 async function fetch_all_products() {
     console.log("fetching all products")
-    all_products.products.push(...(await fetchAllDocuments("product")))
+    all_products.products = await fetchAllDocuments("product")
 }
 
 async function fetch_previous_orders() {
     console.log("fetching all orders")
-    profile.previous_orders.push(...(await fetchAllDocuments("orders")))
+    profile.previous_orders = await fetchAllDocuments("orders")
 }
 
 await fetch_all_products()

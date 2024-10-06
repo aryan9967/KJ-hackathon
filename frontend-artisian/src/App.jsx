@@ -13,6 +13,7 @@ import { Product } from "./components/Inventory/Product";
 import Home from "./pages/Home";
 import ProductDetail from "./pages/ProductDetail";
 import SearchPage from "./pages/SearchPage";
+import UserProfile from "./pages/UserProfile";
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
       <Route path="/searchresult" element={<SearchPage />}></Route>
 
       <Route path="/products" element={<ProductPage />}></Route>
-
+      {/* <Route path="/user/profile" element={<UserProfile />}></Route> */}
       {/* <Route path="/connect" element={<CallPage />}></Route> */}
       <Route path="/admin" element={<Dashboard />} />
       <Route path="/admin/inventory" element={<Inventory />} />

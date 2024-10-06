@@ -18,11 +18,9 @@ const Home = () => {
     },
     {
       target: '.second-step',
-      content: 'Hi there! 👋 I am your virtual assistant, here to help you with any questions or guidance you need. 🤗',
-    },
-    {
-      target: '.third-step',
-      content: 'This is the final step! 🚀',
+
+      content: 'Hi there! 👋 I am your virtual voice assistant, here to help you with any questions or guidance you need. 🤗',
+
     },
   ];
 

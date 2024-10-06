@@ -1,22 +1,34 @@
-import { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState } from 'react';
 
-export const LanguageContext = createContext();
+// Create the context
+const LanguageContext = createContext();
 
-export const LanguageProvider = ({ children }) => {
-  const [selectedlanguage, setLanguage] = useState();
+// Create a provider component
+export function LanguageProvider({ children }) {
+  const [language, setLanguage] = useState('en'); // Default to English
 
-  function changeLanguge(language){
-    console.log("language", language)
-    localStorage.setItem('language', language)
-  }
+  const value = {
+    language,
+    setLanguage,
+    // Add language options for UI if needed
+    languageOptions: [
+      { code: 'en', label: 'English' },
+      { code: 'hi', label: 'Hindi' }
+    ]
+  };
 
   return (
-    <LanguageContext.Provider value={{ selectedlanguage, changeLanguge }}>
+    <LanguageContext.Provider value={value}>
       {children}
     </LanguageContext.Provider>
   );
-};
+}
 
+// Custom hook to use the language context
 export function useLanguage() {
-  return useContext(LanguageContext);
+  const context = useContext(LanguageContext);
+  if (context === undefined) {
+    throw new Error('useLanguage must be used within a LanguageProvider');
+  }
+  return context;
 }
