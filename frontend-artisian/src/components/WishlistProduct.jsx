@@ -1,14 +1,35 @@
 import React, { useState } from 'react';
 import { ShoppingCart, Heart } from 'lucide-react'; // Import Heart icon
+import axios from 'axios';
 
 const WishlistProduct = ({ product, onAddToCart, onBuyNow }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isFavorite, setIsFavorite] = useState(true); // Favorite state
 
+  // Function to toggle the favorite state
+  const addToCart = async (pname) => {
+    try {
+      let pname = product?.name;
+      // Fetch filtered products based on search params
+      const { data } = await axios.post(`http://localhost:3000/add_to_cart`, {
+        product_name: pname
+      });
+      console.log(data);
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false
+    }
+  };
+
   // Function to toggle favorite state
   const toggleFavorite = () => {
     setIsFavorite((prev) => !prev);
   };
+
+  const discount = 15;
+  const previousPrice = Math.round(product?.price / (1 - discount / 100));
+  const roundedRating = Math.floor(product?.rating || 0); // Ensure rating is a valid number
 
   return (
     <div
@@ -24,13 +45,13 @@ const WishlistProduct = ({ product, onAddToCart, onBuyNow }) => {
     >
       {/* Product Image */}
       <a className="relative flex h-60 overflow-hidden" href="#">
-        <img className="object-cover w-full h-full" src={product?.image} alt={product?.title} />
+        <img className="object-cover w-full h-full" src={product?.images[0]} alt={product?.name} />
       </a>
 
       {/* Product Info */}
       <div className="mt-4 px-3 pb-3">
         <a href="#">
-          <h5 className="text-xl font-semibold mb-3 text-gray-900 text-left">{product?.title}</h5>
+          <h5 className="text-xl font-semibold mb-3 text-gray-900 text-left">{product?.name}</h5>
         </a>
 
         {/* Rating Section */}
@@ -51,14 +72,16 @@ const WishlistProduct = ({ product, onAddToCart, onBuyNow }) => {
         </div>
 
         {/* Price Section */}
-        <div className="flex items-center justify-between">
-          <p className="text-lg font-semibold text-gray-900">₹{product?.price}.00</p>
-          {product?.previousPrice && (
-            <>
-              <p className="text-sm text-gray-500 line-through">₹{product?.previousPrice}</p>
-              <p className="text-sm text-green-500">({product?.discount}% Off)</p>
-            </>
-          )}
+        <div className="mt-2 mb-5 flex items-center justify-between">
+          <div className="flex items-center text-left">
+            <p className="text-lg font-semibold mb-1 text-gray-900">₹{product?.price}</p>
+            {previousPrice && (
+              <>
+                <p className="text-ms font-normal text-gray-500 line-through ml-4">₹{previousPrice}.00</p>
+                <p className="text-sm font-semibold text-green-500 ml-4">({discount}% Off)</p>
+              </>
+            )}
+          </div>
         </div>
 
         {/* Favorite Button */}
@@ -73,7 +96,7 @@ const WishlistProduct = ({ product, onAddToCart, onBuyNow }) => {
         {/* Action Buttons */}
         <div className="flex space-x-2 mt-4">
           <button
-            onClick={() => onAddToCart(product)}
+            onClick={() => addToCart(product?.name)}
             className="w-1/2 bg-white border border-orange-800 text-orange-800 hover:bg-orange-50 font-bold py-2 rounded-md flex justify-center items-center"
             style={{ transform: isHovered ? 'scale(1.01)' : 'scale(1)' }}
           >

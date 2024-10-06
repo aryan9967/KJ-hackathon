@@ -54,7 +54,7 @@ export default function Cart() {
     try {
       const { data } = await axios.get("http://localhost:3000/cart");
       console.log(data);
-      setCart(data.cart_products);
+      setCart(data?.cart_products);
 
     } catch (err) {
       console.error(err);
@@ -73,11 +73,11 @@ export default function Cart() {
             <h2 className="text-2xl font-semibold text-gray-800">Your Cart</h2>
           </div>
           <div className="text-sm font-medium text-gray-500">
-            {products?.length} {products?.length === 1 ? ` item` : ` items`}
+            {cart?.length} {cart?.length === 1 ? ` item` : ` items`}
           </div>
         </div>
         <div className="wishlist_container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {products?.map((single_item, index) => (
+          {cart?.map((single_item, index) => (
             <>
               <CartCard product={single_item} key={index} />
             </>

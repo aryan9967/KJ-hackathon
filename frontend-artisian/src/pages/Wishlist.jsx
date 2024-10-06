@@ -44,19 +44,24 @@ export default function Wishlist() {
     },
   ];
 
-  useEffect(() => {
-    get_whishlist();
-  }, []);
-
   async function get_whishlist() {
     try {
       const { data } = await axios.get("http://localhost:3000/wishlist");
       console.log(data);
-      setWhishlist(data.wishlist_products);
+      setWhishlist(data?.wishlist_products);
     } catch (err) {
       console.error(err);
     }
   }
+
+
+  useEffect(() => {
+    get_whishlist();
+    return () => {
+      console.log('Cleanup on component unmount');
+    };
+  }, []);
+
 
   return (
     <div className="main_container">
@@ -71,11 +76,11 @@ export default function Wishlist() {
             <h2 className="text-2xl font-semibold text-gray-800">Your Wishlist</h2>
           </div>
           <div className="text-sm font-medium text-gray-500">
-            {products?.length} {products?.length === 1 ? ` item` : ` items`}
+            {wishlist?.length} {wishlist?.length === 1 ? ` item` : ` items`}
           </div>
         </div>
         <div className="wishlist_container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {products?.map((single_item, index) => (
+          {wishlist?.map((single_item, index) => (
             <WishlistProduct product={single_item} key={index} />
           ))}
         </div>

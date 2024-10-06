@@ -11,11 +11,11 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <SearchProvider>
       {/* <LanguageProvider> */}
-        <BrowserRouter>
-          <ChatbotProvider>
-            <App />
-          </ChatbotProvider>
-        </BrowserRouter>
+      <BrowserRouter>
+        <ChatbotProvider>
+          <App />
+        </ChatbotProvider>
+      </BrowserRouter>
       {/* </LanguageProvider> */}
     </SearchProvider>
   </StrictMode>
