@@ -14,6 +14,7 @@ import Home from "./pages/Home";
 import ProductDetail from "./pages/ProductDetail";
 import SearchPage from "./pages/SearchPage";
 import UserProfile from "./pages/UserProfile";
+import Artists from "./pages/Artists";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
       <Route path='/admin/add-product' element={<AddProduct />} />
       <Route path='/admin/product' element={<Product />} />
 
+      <Route path="/artists" element={<Artists />}></Route>
     </Routes>
   );
 }
