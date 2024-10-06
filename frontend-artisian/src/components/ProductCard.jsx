@@ -7,6 +7,8 @@ const ProductCard = ({ product }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const navigate = useNavigate();
+  console.log(product);
+  
 
   const addToWishlist = async (name) => {
     setIsProcessing(true); // Disable pointer events during API call

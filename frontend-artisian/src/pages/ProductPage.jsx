@@ -51,7 +51,9 @@ const ProductPage = () => {
         try {
             // Fetch product data from the API or use dummy products for now
             const { data } = await axios.get('http://localhost:3000/all_products');
-            const products = data?.products || dummyProducts;
+            console.log(data);
+            
+            const products = data || dummyProducts;
             setAllProducts(products);
             setFilteredProducts(products); // Show all products by default
         } catch (error) {
@@ -68,6 +70,9 @@ const ProductPage = () => {
 
     useEffect(() => {
         getAllProducts();
+        return () => {
+          console.log('Cleanup on component unmount');
+        };
     }, []); // Fetches products only on component mount
 
     // Handles category selection changes and toggling
@@ -84,7 +89,7 @@ const ProductPage = () => {
         if (selectedCategory === 'All') {
             setFilteredProducts(allProducts); // Show all products when 'All' is selected
         } else {
-            const filtered = allProducts.filter(product => product.category === selectedCategory);
+            const filtered = allProducts?.filter(product => product?.category === selectedCategory);
             setFilteredProducts(filtered); // Filter products based on selected category
         }
     }, [selectedCategory, allProducts]);
@@ -97,8 +102,8 @@ const ProductPage = () => {
                     <CategoryFilter selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange} />
                 </div>
                 <div className="product_container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
-                    {filteredProducts.length > 0 ? (
-                        filteredProducts.map((product, index) => (
+                    {filteredProducts?.length > 0 ? (
+                        filteredProducts?.map((product, index) => (
                             <ProductCard product={product} key={index} onClick={() => viewProduct(product?.pid)} />
                         ))
                     ) : (
