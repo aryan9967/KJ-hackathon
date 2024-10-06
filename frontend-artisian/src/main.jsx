@@ -13,6 +13,7 @@ createRoot(document.getElementById("root")).render(
       {/* <LanguageProvider> */}
       <BrowserRouter>
         <ChatbotProvider>
+          
           <App />
         </ChatbotProvider>
       </BrowserRouter>
