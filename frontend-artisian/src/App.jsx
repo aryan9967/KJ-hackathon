@@ -10,7 +10,7 @@ import { Inventory } from "./components/Inventory/Inventory";
 import Orders from "./components/Orders/Order";
 import { AddProduct } from "./components/Inventory/AddProduct";
 import { Product } from "./components/Inventory/Product";
-import Landingpage from "./pages/Landingpage";
+import Home from "./pages/Home";
 import ProductDetail from "./pages/ProductDetail";
 import SearchPage from "./pages/SearchPage";
 
@@ -18,7 +18,7 @@ function App() {
   return (
     <Routes>
 
-      <Route path="/" element={<Landingpage />} />
+      <Route path="/" element={<Home />} />
       <Route path="/product/:pid" element={<ProductDetail />}></Route>
       <Route path="/wishlist" element={<Wishlist />}></Route>
       <Route path="/profile" element={<Profile />}></Route>
