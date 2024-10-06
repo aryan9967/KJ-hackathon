@@ -26,6 +26,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import NavbarAdmin from "../Dashboard-Admin/NavbarAdmin";
+import ChatbotArtisan from "../ChatbotArtisan";
 
 // Constants
 const STATUS_COLORS = {
@@ -129,52 +130,59 @@ export function Inventory() {
   }, []);
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-beige-100">
-      <NavbarAdmin />
-      <div className="flex flex-col gap-4 p-6">
-        <div className="flex justify-end pr-2">
-          <Button
-            className="bg-orange-800 text-white hover:bg-orange-900"
-            onClick={() => navigate("/admin/add-product")}
-          >
-            Add Product
-          </Button>
+    <div className="main_container">
+      <div className="flex min-h-screen w-full flex-col bg-beige-100">
+        <div className="navbar_container">
+          <NavbarAdmin />
         </div>
-        <Card className="w-full">
-          <CardHeader>
-            <CardTitle className="text-2xl font-bold text-gray-800">
-              Local Artisan Products
-            </CardTitle>
-            <CardDescription>
-              Manage your artisanal products and view their sales performance.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-gray-100">
-                  <TableHead className="w-[80px]">Image</TableHead>
-                  <TableHead className="w-[250px]">Name</TableHead>
-                  <TableHead className="w-[100px]">Status</TableHead>
-                  <TableHead className="w-[100px]">Price</TableHead>
-                  <TableHead className="w-[120px]">Total Sales</TableHead>
-                  <TableHead className="w-[150px]">Category</TableHead>
-                  <TableHead className="w-[80px]">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {products?.map((product) => (
-                  <ProductRow key={product.id} product={product} />
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-          <CardFooter>
-            <div className="text-sm text-gray-500">
-              Showing <strong>{products?.length}</strong> products
+        <div className="main_screen">
+          <div className="flex flex-col gap-4 p-6">
+            <div className="flex justify-end pr-2">
+              <Button
+                className="bg-orange-800 text-white hover:bg-orange-900"
+                onClick={() => navigate("/admin/add-product")}
+              >
+                Add Product
+              </Button>
             </div>
-          </CardFooter>
-        </Card>
+            <Card className="w-full">
+              <CardHeader>
+                <CardTitle className="text-2xl font-bold text-gray-800">
+                  Local Artisan Products
+                </CardTitle>
+                <CardDescription>
+                  Manage your artisanal products and view their sales performance.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-gray-100">
+                      <TableHead className="w-[80px]">Image</TableHead>
+                      <TableHead className="w-[250px]">Name</TableHead>
+                      <TableHead className="w-[100px]">Status</TableHead>
+                      <TableHead className="w-[100px]">Price</TableHead>
+                      <TableHead className="w-[120px]">Total Sales</TableHead>
+                      <TableHead className="w-[150px]">Category</TableHead>
+                      <TableHead className="w-[80px]">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {products?.map((product) => (
+                      <ProductRow key={product.id} product={product} />
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+              <CardFooter>
+                <div className="text-sm text-gray-500">
+                  Showing <strong>{products?.length}</strong> products
+                </div>
+              </CardFooter>
+            </Card>
+            <ChatbotArtisan />
+          </div>
+        </div>
       </div>
     </div>
   );

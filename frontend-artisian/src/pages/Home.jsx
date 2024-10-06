@@ -5,9 +5,26 @@ import Navbar from "@/components/Navbar";
 import React, { useState, useEffect } from "react";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
+import Joyride from "react-joyride";
 
 const Home = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [run, setRun] = useState(true);
+
+  const steps = [
+    {
+      target: '.first-step',
+      content: 'This is the first step of your website guide!',
+    },
+    {
+      target: '.second-step',
+      content: 'Here is another feature you need to know about!',
+    },
+    {
+      target: '.third-step',
+      content: 'This is the final step!',
+    },
+  ];
 
   // Categories data
   const categories = [
@@ -113,8 +130,15 @@ const Home = () => {
 
   return (
     <div className="main_container">
-      <div className="navbar_container">
-        <Navbar />
+      <Joyride
+        steps={steps}
+        continuous={true}
+        scrollToFirstStep={true}
+        showSkipButton={true}
+        run={run}
+      />
+      <div className="navbar_container first-step">
+        <Navbar  />
       </div>
 
       <div className="main_screen">
@@ -134,7 +158,9 @@ const Home = () => {
         <FAQ />
 
         </div>
+      
         <Chatbot />
+       
       </div>
     </div>
   );

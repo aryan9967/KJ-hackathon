@@ -282,7 +282,7 @@ export default function Chatbot() {
   return (
     <>
       <button
-        className="button AIbutton"
+        className="button AIbutton second-step"
         id="AIbutton"
         onClick={() => {
           if (!loopref.current) {

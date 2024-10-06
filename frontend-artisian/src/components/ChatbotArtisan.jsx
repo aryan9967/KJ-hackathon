@@ -200,7 +200,7 @@ export default function ChatbotArtisan() {
   return (
     <>
       <button
-        className="button AIbutton"
+        className="button AIbutton chatbot"
         id="AIbutton2"
         onClick={() => {
             console.log(loopref.current)

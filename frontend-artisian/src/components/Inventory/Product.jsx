@@ -20,6 +20,7 @@ import {
 } from '../ui/select';
 import { Textarea } from '../ui/textarea';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import ChatbotArtisan from '../ChatbotArtisan';
 
 export function Product() {
     const { control, handleSubmit, setValue } = useForm();
@@ -297,6 +298,7 @@ export function Product() {
                                 </Button>
                             </div>
                         </div>
+                        <ChatbotArtisan />
                     </main>
                 </div>
             </form>

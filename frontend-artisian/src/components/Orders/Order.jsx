@@ -71,6 +71,7 @@ import {
 } from "@/components/ui/tabs"
 import NavbarAdmin from '../Dashboard-Admin/NavbarAdmin'
 import { useEffect,useState } from 'react'
+import ChatbotArtisan from '../ChatbotArtisan'
 
 
 export const description =
@@ -118,6 +119,7 @@ export const description =
         <div className='navbar_container'>
           <NavbarAdmin />
         </div>
+        <div className='main_screen'>
         <div className="flex min-h-screen w-full flex-col bg-beige-100">
           <div className="flex flex-col sm:gap-4 px-4 py-4">
             <main className="grid flex-1 items-start gap-4  sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
@@ -153,34 +155,7 @@ export const description =
                   </Card>
                 </div>
                 <Tabs defaultValue="week">
-                  <div className="flex items-center">
-                    <TabsList>
-                      <TabsTrigger value="week">Week</TabsTrigger>
-                      <TabsTrigger value="month">Month</TabsTrigger>
-                      <TabsTrigger value="year">Year</TabsTrigger>
-                    </TabsList>
-                    <div className="ml-auto flex items-center gap-2">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="outline" size="sm" className="h-7 gap-1 text-sm">
-                            <ListFilter className="h-3.5 w-3.5" />
-                            <span className="sr-only sm:not-sr-only">Filter</span>
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>Filter by</DropdownMenuLabel>
-                          <DropdownMenuSeparator />
-                          <DropdownMenuCheckboxItem checked>Fulfilled</DropdownMenuCheckboxItem>
-                          <DropdownMenuCheckboxItem>Declined</DropdownMenuCheckboxItem>
-                          <DropdownMenuCheckboxItem>Pending</DropdownMenuCheckboxItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                      <Button size="sm" variant="outline" className="h-7 gap-1 text-sm">
-                        <File className="h-3.5 w-3.5" />
-                        <span className="sr-only sm:not-sr-only">Export</span>
-                      </Button>
-                    </div>
-                  </div>
+                  
                   <TabsContent value="week">
                     <Card>
                       <CardHeader className="px-7">
@@ -218,7 +193,7 @@ export const description =
                                 <TableCell className="hidden md:table-cell">
                                   {new Date(order.date).toLocaleDateString()}
                                 </TableCell>
-                                <TableCell className="text-right">${order.amount.toFixed(2)}</TableCell>
+                                <TableCell className="text-right">{order.amount.toFixed(2)}</TableCell>
                               </TableRow>
                             ))}
                           </TableBody>
@@ -354,8 +329,10 @@ export const description =
                   </CardFooter>
                 </Card>
               </div>
+              <ChatbotArtisan />
             </main>
           </div>
+        </div>
         </div>
       </div>
     );
