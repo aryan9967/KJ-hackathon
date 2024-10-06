@@ -14,11 +14,11 @@ const Home = () => {
   const steps = [
     {
       target: '.first-step',
-      content: 'This is the first step of your website guide!',
+      content: 'Navigate to different parts of website through here.',
     },
     {
       target: '.second-step',
-      content: 'Here is another feature you need to know about!',
+      content: 'I am your personal assistant.',
     },
     {
       target: '.third-step',
@@ -143,13 +143,13 @@ const Home = () => {
 
       <div className="main_screen">
         <Hero />
-        <div className="container mx-auto bg-beige-100">
+        <div className="container mx-auto bg-beige-100 pt-12">
           <section className="mb-12">
-            <h2 className="text-4xl font-samarkan mb-4 m-2">Categories</h2>
+            <h2 className="text-3xl font-samarkan mb-4">Categories</h2>
             {renderCategories()}
           </section>
           <section>
-            <h2 className="text-2xl font-samarkan mb-4">
+            <h2 className="text-3xl font-samarkan mb-4 ">
               Recommended Products
             </h2>
             {renderRecommendedProducts()}
