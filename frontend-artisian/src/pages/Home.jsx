@@ -1,15 +1,15 @@
+import React, { useState, useEffect } from "react";
 import Chatbot from "@/components/Chatbot";
 import FAQ from "@/components/FAQ";
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
-import React, { useState, useEffect } from "react";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import Joyride from "react-joyride";
 
 const Home = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [run, setRun] = useState(true);
+  const [runTour, setRunTour] = useState(false);
 
   const steps = [
     {
@@ -18,36 +18,48 @@ const Home = () => {
     },
     {
       target: '.second-step',
+
       content: 'Hi there! 👋 I am your virtual voice assistant, here to help you with any questions or guidance you need. 🤗',
+
     },
   ];
+
+  useEffect(() => {
+    const hasSeenTour = sessionStorage.getItem('hasSeenTour');
+    if (!hasSeenTour) {
+      setRunTour(true); // Start the tour automatically if user hasn't seen it
+    }
+  }, []);
+
+  const handleJoyrideCallback = (data) => {
+    const { status } = data;
+    if (status === 'finished' || status === 'skipped') {
+      sessionStorage.setItem('hasSeenTour', 'true');
+      setRunTour(false); // Stop the tour after completion
+    }
+  };
 
   // Categories data
   const categories = [
     {
       name: "Ceramic",
-      image:
-        "https://www.soosi.co.in/cdn/shop/products/WhatsAppImage2021-03-25at7.39.50PM_580x.jpg?v=1616695308",
+      image: "https://www.soosi.co.in/cdn/shop/products/WhatsAppImage2021-03-25at7.39.50PM_580x.jpg?v=1616695308",
     },
     {
       name: "Handmade Jewellery",
-      image:
-        "https://d1bk2y5ix4k199.cloudfront.net/pics/Black-Onyx-Ganesha-gemstone-artisan-handmade-necklace-set-41355_1_full.jpg",
+      image: "https://d1bk2y5ix4k199.cloudfront.net/pics/Black-Onyx-Ganesha-gemstone-artisan-handmade-necklace-set-41355_1_full.jpg",
     },
     {
       name: "Woodworking",
-      image:
-        "https://img.freepik.com/premium-photo/traditional-woodworking-tools-displayed-table-artisan-craftsmanship-image_706399-29128.jpg",
+      image: "https://img.freepik.com/premium-photo/traditional-woodworking-tools-displayed-table-artisan-craftsmanship-image_706399-29128.jpg",
     },
     {
       name: "Vintage Denim",
-      image:
-        "https://assets.ajio.com/medias/sys_master/root/20240502/gFYn/66336b1216fd2c6e6ae2057c/-473Wx593H-466453554-black-MODEL.jpg",
+      image: "https://assets.ajio.com/medias/sys_master/root/20240502/gFYn/66336b1216fd2c6e6ae2057c/-473Wx593H-466453554-black-MODEL.jpg",
     },
     {
       name: "Marble Furnishings",
-      image:
-        "https://www.nismaayadecor.in/cdn/shop/files/makaio-arabescato-corchia-marble-coffee-table_4.jpg?v=1717503628&width=1080",
+      image: "https://www.nismaayadecor.in/cdn/shop/files/makaio-arabescato-corchia-marble-coffee-table_4.jpg?v=1717503628&width=1080",
     },
   ];
 
@@ -55,20 +67,17 @@ const Home = () => {
   const recommendedProducts = [
     {
       name: "Product 1",
-      image:
-        "https://img.freepik.com/premium-photo/exquisite-handcrafted-jewelry-display_1022456-105791.jpg",
+      image: "https://img.freepik.com/premium-photo/exquisite-handcrafted-jewelry-display_1022456-105791.jpg",
       price: "$19.99",
     },
     {
       name: "Product 2",
-      image:
-        "https://img.freepik.com/premium-photo/gold-jewellery-displayed-store_902846-25984.jpg",
+      image: "https://img.freepik.com/premium-photo/gold-jewellery-displayed-store_902846-25984.jpg",
       price: "$24.99",
     },
     {
       name: "Product 3",
-      image:
-        "https://www.mystore.in/s/62ea2c599d1398fa16dbae0a/654cddd666591f6c267f838e/1_0048_dsc00481.jpg",
+      image: "https://www.mystore.in/s/62ea2c599d1398fa16dbae0a/654cddd666591f6c267f838e/1_0048_dsc00481.jpg",
       price: "$29.99",
     },
     // Add more products as needed
@@ -128,13 +137,14 @@ const Home = () => {
     <div className="main_container">
       <Joyride
         steps={steps}
+        run={runTour} // Automatically starts the tour based on runTour state
         continuous={true}
         scrollToFirstStep={true}
         showSkipButton={true}
-        run={run}
+        callback={handleJoyrideCallback}
       />
       <div className="navbar_container first-step">
-        <Navbar  />
+        <Navbar />
       </div>
 
       <div className="main_screen">
@@ -144,19 +154,17 @@ const Home = () => {
             <h2 className="text-3xl font-samarkan mb-4">Categories</h2>
             {renderCategories()}
           </section>
-          <section>
-            <h2 className="text-3xl font-samarkan mb-4 ">
-              Recommended Products
-            </h2>
+          <section className="third-step">
+            <h2 className="text-3xl font-samarkan mb-4">Recommended Products</h2>
             {renderRecommendedProducts()}
           </section>
 
-        <FAQ />
-
+          <FAQ />
         </div>
       
-        <Chatbot />
-       
+        <div className="second-step">
+          <Chatbot />
+        </div>
       </div>
     </div>
   );

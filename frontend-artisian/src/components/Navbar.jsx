@@ -61,8 +61,10 @@ const Navbar = () => {
               </NavLink>
             </li>
           </ul>
+
           <div className="right_side flex">
             <LanguageSwitch />
+
             <SearchBar />
           </div>
 
