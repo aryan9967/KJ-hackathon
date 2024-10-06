@@ -101,7 +101,8 @@ const ProductPage = () => {
                 <div className="py-4 px-6 bg-white border-b border-gray-200">
                     <CategoryFilter selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange} />
                 </div>
-                <div className="product_container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-6">
+                <div className="product_container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-6 mt-6 px-2 sm:px-4 lg:px-6">
+
                     {filteredProducts?.length > 0 ? (
                         filteredProducts?.map((product, index) => (
                             <ProductCard product={product} key={index} onClick={() => viewProduct(product?.pid)} />

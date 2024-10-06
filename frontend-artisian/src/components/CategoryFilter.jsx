@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 const categories = [
+    'ceramics',
     'paintings',
     'jewelery',
     'woodworking',
