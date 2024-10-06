@@ -50,6 +50,7 @@ const ProductDetail = () => {
                 qauntity: 1
             });
             console.log(data);
+            window.open("https://razorpay.com/payment-link/plink_P5gDkh02tQ43T4/test")
         } catch (error) {
             console.log(error);
             return false;

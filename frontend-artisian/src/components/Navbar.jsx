@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import "../styles/homepage.css";
-import logo from "../assets/logo1e copy.png";
+import logo from "../../public/artisan_logo.png"
 import { Button } from "./ui/button";
 import { Heart, User, Phone } from "lucide-react";
 import axios from "axios";
@@ -14,7 +14,7 @@ const Navbar = () => {
     <nav className="bg-[#fff] h-[10vh] shadow-lg border-b">
       <div className="container flex items-center justify-between h-full">
         {/* Logo */}
-        <img alt="Logo" className="h-8 w-[120px] mr-7 ml-5 mt-0.5" />
+        <img alt="Logo" className="h-8 w-[120px] mr-7 ml-5 mt-0.5" src={logo} />
 
         {/* Mobile Toggle Button */}
         <button

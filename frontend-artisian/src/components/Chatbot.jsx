@@ -20,7 +20,7 @@ export default function Chatbot() {
   const location = useRef();
   const videoRef = useRef(null)
   const [chatContent, setChatContent] = useState(
-    "Hello, I am Art madad, your personal shopping assistant. How may I assist you?"
+    "Hello, I am Sarthi, your personal shopping assistant. How may I assist you?"
   );
   // Update the ref whenever transcript1 changes
   useEffect(() => {
@@ -68,7 +68,7 @@ export default function Chatbot() {
     });
 
     const textToSpeak =
-      "Hello, I am Art madad, your personal shopping assistant. How may I assist you?";
+      "Hello, I am Sarthi, your personal shopping assistant. How may I assist you?";
 
     if (window.location.pathname === "/" && chatStatusref.current) {
       speakText(textToSpeak);

@@ -138,7 +138,7 @@ export function Dashboard() {
                           {/* Access the quantity if needed */}
                         </div>
                         <div className="ml-auto font-semibold text-sm text-white rounded-full px-2 py-1 bg-orange-800">
-                          ${sale.amount}
+                        ₹{sale.amount}
                         </div>
                       </div>
                     ))

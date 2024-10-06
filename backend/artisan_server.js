@@ -1,7 +1,7 @@
 import express, { response } from "express"
 import { createServer } from "http"
 import { Server } from "socket.io"
-import { AImodel } from "./controllers/geminiAi.js"
+import { AImodel2 } from "./controllers/geminiAi.js"
 import cors from "cors"
 import bodyParser from "body-parser"
 import { createOrUpdateDocument, fetchAllDocuments, updateDocument } from "./controllers/CRUD.js"
@@ -97,7 +97,7 @@ If you are unable to perform a specific task, respond with "cannot perform this 
     },]
 
 
-    const chatSession = AImodel.startChat({
+    const chatSession = AImodel2.startChat({
 
         // safetySettings: Adjust safety settings
         // See https://ai.google.dev/gemini-api/docs/safety-settings

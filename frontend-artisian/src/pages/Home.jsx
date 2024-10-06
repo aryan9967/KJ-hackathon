@@ -5,7 +5,7 @@ import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
-import Joyride from "react-joyride";
+import Joyride,  {STATUS} from "react-joyride";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
@@ -15,29 +15,28 @@ const Home = () => {
 
   const steps = [
     {
-      target: '.first-step',
-      content: 'Welcome! 🎉 Use this navigation bar to explore different sections of our website easily.',
+      target: ".first-step",
+      content: "Welcome! 🎉 Use this navigation bar to explore different sections of our website easily.",
+      disableBeacon: true,
     },
     {
-      target: '.second-step',
-
-      content: 'Hi there! 👋 I am your virtual voice assistant, here to help you with any questions or guidance you need. 🤗',
-
+      target: ".second-step",
+      content: "Hi there! 👋 I am your virtual voice assistant, here to help you with any questions or guidance you need. 🤗",
+      disableBeacon: true,
     },
   ];
 
   useEffect(() => {
-    const hasSeenTour = sessionStorage.getItem('hasSeenTour');
+    const hasSeenTour = sessionStorage.getItem("hasSeenTour");
     if (!hasSeenTour) {
-      setRunTour(true); // Start the tour automatically if user hasn't seen it
+      setRunTour(true);
     }
   }, []);
 
   const handleJoyrideCallback = (data) => {
     const { status } = data;
-    if (status === 'finished' || status === 'skipped') {
-      sessionStorage.setItem('hasSeenTour', 'true');
-      setRunTour(false); // Stop the tour after completion
+    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
+      sessionStorage.setItem("hasSeenTour", "true");
     }
   };
 
@@ -72,19 +71,19 @@ const Home = () => {
   // Recommended products data
   const recommendedProducts = [
     {
-      name: "Product 1",
-      image: "https://img.freepik.com/premium-photo/exquisite-handcrafted-jewelry-display_1022456-105791.jpg",
-      price: "$19.99",
+      name: "Terracota Flower Pot",
+      image: "https://storage.googleapis.com/kj-hackathon-88e7e.appspot.com/products/pid1728145940790/1",
+      price: "₹150",
     },
     {
       name: "Product 2",
-      image: "https://img.freepik.com/premium-photo/gold-jewellery-displayed-store_902846-25984.jpg",
-      price: "$24.99",
+      image: "https://storage.googleapis.com/kj-hackathon-88e7e.appspot.com/products/pid1728146987449/1",
+      price: "₹180",
     },
     {
       name: "Product 3",
-      image: "https://www.mystore.in/s/62ea2c599d1398fa16dbae0a/654cddd666591f6c267f838e/1_0048_dsc00481.jpg",
-      price: "$29.99",
+      image: "https://storage.googleapis.com/kj-hackathon-88e7e.appspot.com/products/pid1728173686733/1",
+      price: "₹40",
     },
     // Add more products as needed
   ];
@@ -168,9 +167,9 @@ const Home = () => {
           <FAQ />
         </div>
 
-        <div className="second-step">
+      
           <Chatbot />
-        </div>
+        
       </div>
     </div>
   );

@@ -20,7 +20,7 @@ export default function ChatbotArtisan() {
   const location = useRef();
   const videoRef2 = useRef()
   const [chatContent, setChatContent] = useState(
-    "Hello, I am Art madad, your personal website assistant. How may I assist you?"
+    "Hello, I am Sarthi, your personal website assistant. How may I assist you?"
   );
   // Update the ref whenever transcript1 changes
   useEffect(() => {
@@ -68,7 +68,7 @@ export default function ChatbotArtisan() {
     });
 
     const textToSpeak =
-      "Hello, I am Art madad, your personal shopping assistant. How may I assist you?";
+      "Hello, I Sarthi, your personal shopping assistant. How may I assist you?";
 
     if (window.location.pathname == "/admin" && chatStatusref.current) {
       speakText(textToSpeak);
@@ -202,7 +202,7 @@ export default function ChatbotArtisan() {
   return (
     <>
       <button
-        className="button AIbutton chatbot"
+        className="button AIbutton chatbot second-step"
         id="AIbutton2"
         onClick={() => {
           console.log(loopref.current);

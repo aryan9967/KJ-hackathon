@@ -60,8 +60,8 @@ export function BarChartComponent() {
               axisLine={false}
               tickFormatter={(value) => value.slice(0, 100)}
             />
-            <ChartTooltip content={<ChartTooltipContent hideLabel className = "bg-orange-800 text-orange-800" />}  />
-            <ChartLegend content={<ChartLegendContent className = "text-orange-800"   />} />
+            <ChartTooltip content={<ChartTooltipContent hideLabel className = "bg-white" />}  />
+            <ChartLegend content={<ChartLegendContent className = "bg-white"   />} />
             <Bar
               dataKey="high"
               stackId="a"
