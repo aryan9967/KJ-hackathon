@@ -16,36 +16,6 @@ import painting5 from '@/assets/painting5.jpg';
 export default function Cart() {
   const [cart, setCart] = useState(null);
 
-  const products = [
-    {
-      id: 1,
-      image: painting1,
-      title: 'Abstract Painting',
-      price: 3999,
-      previous_price: 1499,
-      discount: 15,
-      rating: 4,
-    },
-    {
-      id: 2,
-      image: painting2,
-      title: 'Nature Landscape',
-      price: 2499,
-      previous_price: 1499,
-      discount: 15,
-      rating: 5,
-    },
-    {
-      id: 3,
-      image: painting3,
-      title: 'Modern Art Piece',
-      price: 5999,
-      previous_price: 1499,
-      discount: 15,
-      rating: 4,
-    },
-  ];
-
   useEffect(() => {
     get_cart();
   }, []);

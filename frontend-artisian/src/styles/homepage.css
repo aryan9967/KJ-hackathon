@@ -180,3 +180,36 @@
     border: none;
     outline: none;
 }
+
+.container {
+    max-width: 1200px;
+    /* Adjust this to your layout */
+    margin: 0 auto;
+    padding: 0 0px 0 0;
+    /* Some padding on sides */
+}
+
+.nav-link {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.search_bar {
+    width: 300px;
+    /* Adjust this width based on your design */
+}
+
+/* Ensures search bar stays to the right with some space */
+@media (min-width: 1024px) {
+    .search_bar {
+        margin-right: 2rem;
+        /* Adjust spacing */
+    }
+}
+
+@media (max-width: 1024px) {
+    .navbar-toggler {
+        display: block;
+    }
+}

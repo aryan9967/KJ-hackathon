@@ -52,7 +52,7 @@ const ProductPage = () => {
             // Fetch product data from the API or use dummy products for now
             const { data } = await axios.get('http://localhost:3000/all_products');
             console.log(data);
-            
+
             const products = data || dummyProducts;
             setAllProducts(products);
             setFilteredProducts(products); // Show all products by default
@@ -71,7 +71,7 @@ const ProductPage = () => {
     useEffect(() => {
         getAllProducts();
         return () => {
-          console.log('Cleanup on component unmount');
+            console.log('Cleanup on component unmount');
         };
     }, []); // Fetches products only on component mount
 
@@ -101,7 +101,7 @@ const ProductPage = () => {
                 <div className="py-4 px-6 bg-white border-b border-gray-200">
                     <CategoryFilter selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange} />
                 </div>
-                <div className="product_container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
+                <div className="product_container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-6">
                     {filteredProducts?.length > 0 ? (
                         filteredProducts?.map((product, index) => (
                             <ProductCard product={product} key={index} onClick={() => viewProduct(product?.pid)} />

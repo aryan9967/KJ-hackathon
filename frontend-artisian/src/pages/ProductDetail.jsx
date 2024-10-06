@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Star, ShoppingCart, CreditCard, ArrowLeft, Plus, Minus } from 'lucide-react';
-import { Link, useParams } from 'react-router-dom';
-import painting1 from '@/assets/painting1.jpg';
-import painting2 from '@/assets/painting2.jpg';
-import painting3 from '@/assets/painting3.jpg';
-import painting4 from '@/assets/painting4.jpg';
-import painting5 from '@/assets/painting5.jpg';
+import { Link, useParams, useNavigate } from 'react-router-dom'; // Import useNavigate
 import axios from 'axios';
 import Navbar from '@/components/Navbar';
 
@@ -15,9 +10,8 @@ const ProductDetail = () => {
     const [showMore, setShowMore] = useState(false);
     const [mainImage, setMainImage] = useState(null);
     const [quantity, setQuantity] = useState(1);
-    const [selectedColor, setSelectedColor] = useState('Blue');
-    const [selectedSize, setSelectedSize] = useState('M');
     const [isAnimating, setIsAnimating] = useState(false);
+    const navigate = useNavigate(); // Initialize useNavigate
 
     const getProductDetails = async () => {
         try {
@@ -29,7 +23,7 @@ const ProductDetail = () => {
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 
     const addToCart = async () => {
         try {
@@ -62,7 +56,6 @@ const ProductDetail = () => {
 
     const discount = 15;
     const previousPrice = Math.round(product?.price / (1 - discount / 100));
-    const roundedRating = Math.floor(product?.rating || 0);
 
     return (
         <div className="main_container">
@@ -72,10 +65,10 @@ const ProductDetail = () => {
             <div className="main_screen">
                 <div className="min-h-screen bg-gray-100 p-4 w-full">
                     <div className="w-full h-full bg-white rounded-lg shadow-xl p-6 flex flex-col gap-4">
-                        <Link to="/" className="flex items-center text-blue-600 mb-4">
+                        <button onClick={() => navigate(-1)} className="flex items-center text-orange-800 mb-4">
                             <ArrowLeft className="w-4 h-4 mr-2" />
                             Back to results
-                        </Link>
+                        </button>
                         <div className="flex flex-col md:flex-row gap-8 h-full">
                             {/* Image section */}
                             <div className="w-2/3 flex flex-row gap-4">
