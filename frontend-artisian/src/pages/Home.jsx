@@ -6,10 +6,12 @@ import Navbar from "@/components/Navbar";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import Joyride from "react-joyride";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [runTour, setRunTour] = useState(false);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const steps = [
     {
@@ -39,6 +41,10 @@ const Home = () => {
     }
   };
 
+  const handleCategoryShift = (name) => {
+    navigate('/products')
+  };
+
   // Categories data
   const categories = [
     {
@@ -54,8 +60,8 @@ const Home = () => {
       image: "https://img.freepik.com/premium-photo/traditional-woodworking-tools-displayed-table-artisan-craftsmanship-image_706399-29128.jpg",
     },
     {
-      name: "Vintage Denim",
-      image: "https://assets.ajio.com/medias/sys_master/root/20240502/gFYn/66336b1216fd2c6e6ae2057c/-473Wx593H-466453554-black-MODEL.jpg",
+      name: "Painting",
+      image: "https://img.freepik.com/premium-photo/colorful-bird-is-branch-with-colorful-background_1135095-19121.jpg?uid=R132421341&ga=GA1.1.1646679099.1723902055&semt=ais_hybrid",
     },
     {
       name: "Marble Furnishings",
@@ -94,7 +100,7 @@ const Home = () => {
   const renderCategories = () => (
     <div className="flex justify-center items-center space-x-8 py-8">
       {categories.map((category, index) => (
-        <div key={index} className="flex flex-col items-center group">
+        <div key={index} className="flex flex-col items-center group" onClick={handleCategoryShift}>
           <div className="w-32 h-32 rounded-full overflow-hidden mb-2 transition-transform duration-300 group-hover:scale-110">
             <img
               src={category.image}
@@ -161,7 +167,7 @@ const Home = () => {
 
           <FAQ />
         </div>
-      
+
         <div className="second-step">
           <Chatbot />
         </div>

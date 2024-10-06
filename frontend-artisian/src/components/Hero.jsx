@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from "react";
 
 const Hero = () => {
-  
+
   const [currentSlide, setCurrentSlide] = useState(0);
   const slides = [
     {
       background:
-        "https://img.freepik.com/free-photo/watercolor-pottery-illustration_23-2151809831.jpg?t=st=1728144393~exp=1728147993~hmac=175de66e7cc716bfd30eeaebf0c364ce20f007ba62c051511b7143b8061c6193&w=1380",
+        "https://img.freepik.com/free-photo/close-up-hands-working-pottery_23-2151680832.jpg?t=st=1728197498~exp=1728201098~hmac=6c21b0c771ada02a98753b4426b71d0a9b44058660652c4d15dad8cd8ad7ea12&w=1380",
       title: "Ceramic",
-      description: "Rewriting sport's playbook for billions of athletes",
+      description: "Crafting Elegance in Every Piece.",
     },
     {
       background:
-        "https://img.freepik.com/premium-photo/artisans-sukhothai-craft-natureinspired-pottery-with-colors-from-environment-concept-craftsmanship-pottery-sukhothai-artisans-natureinspired_864588-73987.jpg?w=1380",
+        "https://img.freepik.com/premium-photo/professional-photographer-capturing-artist-painting_1168612-147202.jpg?w=1380",
       title: "Paintings",
-      description: "From mobile apps to gaming consoles",
+      description: "Bringing Emotions to Life on Canvas.",
     },
     {
       background:
-        "https://img.freepik.com/free-photo/watercolor-pottery-illustration_23-2151809785.jpg?t=st=1728144432~exp=1728148032~hmac=60b57446ab284f8119f45bf6ca8a3267b1ca6c68048181a92a70107438099c50&w=1380",
+        "https://img.freepik.com/premium-photo/professional-photographer-capturing-artist-sculpting_1168612-147079.jpg?w=1380",
       title: "Sculptures",
       description: "Bringing Art to everything",
     },
@@ -44,26 +44,26 @@ const Hero = () => {
 
   return (
     <div className="relative w-full h-[30rem] md:h-[calc(90vh)] overflow-hidden">
-      
+
       <div
-  className="left-0 w-full h-full flex transition-transform duration-700 ease-in-out"
-  style={{ transform: `translateX(-${currentSlide * 100}%)` }}
->
+        className="left-0 w-full h-full flex transition-transform duration-700 ease-in-out"
+        style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+      >
 
         {slides.map((slide, index) => (
           <div key={index} className="w-full h-full flex-shrink-0">
             <div
-  className="w-full h-full flex flex-col justify-end bg-cover bg-center bg-no-repeat"
-  style={{ backgroundImage: `url(${slide.background})` }} // Use backticks for template literals
->
+              className="w-full h-full flex flex-col justify-end bg-cover bg-center bg-no-repeat"
+              style={{ backgroundImage: `url(${slide.background})` }} // Use backticks for template literals
+            >
 
               <div className="mt-auto w-2/3 md:max-w-lg ps-5 pb-5 md:ps-10 md:pb-10">
-              <span className="block text-white text-xl md:text-2xl font-bold mb-2 text-shadow-outline">
-  {slide.title}
-</span>
-<span className="block text-white text-3xl md:text-5xl font-bold leading-tight text-shadow-outline">
-  {slide.description}
-</span>
+                <span className="block text-white text-xl md:text-2xl font-bold mb-2 text-shadow-outline">
+                  {slide.title}
+                </span>
+                <span className="block text-white text-3xl md:text-5xl font-bold leading-tight text-shadow-outline">
+                  {slide.description}
+                </span>
                 <div className="mt-5">
                   <a
                     className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl bg-white border border-transparent text-black hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
